@@ -1,0 +1,401 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>周志华《机器学习》课后习题解答系列（四）：Ch3 - 线性模型</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<style type="text/css">
+/* GitHub stylesheet for MarkdownPad (http://markdownpad.com) */
+/* Author: Nicolas Hery - http://nicolashery.com */
+/* Version: b13fe65ca28d2e568c6ed5d7f06581183df8f2ff */
+/* Source: https://github.com/nicolahery/markdownpad-github */
+
+/* RESET
+=============================================================================*/
+
+html, body, div, span, applet, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, pre, a, abbr, acronym, address, big, cite, code, del, dfn, em, img, ins, kbd, q, s, samp, small, strike, strong, sub, sup, tt, var, b, u, i, center, dl, dt, dd, ol, ul, li, fieldset, form, label, legend, table, caption, tbody, tfoot, thead, tr, th, td, article, aside, canvas, details, embed, figure, figcaption, footer, header, hgroup, menu, nav, output, ruby, section, summary, time, mark, audio, video {
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+
+/* BODY
+=============================================================================*/
+
+body {
+  font-family: Helvetica, arial, freesans, clean, sans-serif;
+  font-size: 14px;
+  line-height: 1.6;
+  color: #333;
+  background-color: #fff;
+  padding: 20px;
+  max-width: 960px;
+  margin: 0 auto;
+}
+
+body>*:first-child {
+  margin-top: 0 !important;
+}
+
+body>*:last-child {
+  margin-bottom: 0 !important;
+}
+
+/* BLOCKS
+=============================================================================*/
+
+p, blockquote, ul, ol, dl, table, pre {
+  margin: 15px 0;
+}
+
+/* HEADERS
+=============================================================================*/
+
+h1, h2, h3, h4, h5, h6 {
+  margin: 20px 0 10px;
+  padding: 0;
+  font-weight: bold;
+  -webkit-font-smoothing: antialiased;
+}
+
+h1 tt, h1 code, h2 tt, h2 code, h3 tt, h3 code, h4 tt, h4 code, h5 tt, h5 code, h6 tt, h6 code {
+  font-size: inherit;
+}
+
+h1 {
+  font-size: 28px;
+  color: #000;
+}
+
+h2 {
+  font-size: 24px;
+  border-bottom: 1px solid #ccc;
+  color: #000;
+}
+
+h3 {
+  font-size: 18px;
+}
+
+h4 {
+  font-size: 16px;
+}
+
+h5 {
+  font-size: 14px;
+}
+
+h6 {
+  color: #777;
+  font-size: 14px;
+}
+
+body>h2:first-child, body>h1:first-child, body>h1:first-child+h2, body>h3:first-child, body>h4:first-child, body>h5:first-child, body>h6:first-child {
+  margin-top: 0;
+  padding-top: 0;
+}
+
+a:first-child h1, a:first-child h2, a:first-child h3, a:first-child h4, a:first-child h5, a:first-child h6 {
+  margin-top: 0;
+  padding-top: 0;
+}
+
+h1+p, h2+p, h3+p, h4+p, h5+p, h6+p {
+  margin-top: 10px;
+}
+
+/* LINKS
+=============================================================================*/
+
+a {
+  color: #4183C4;
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+/* LISTS
+=============================================================================*/
+
+ul, ol {
+  padding-left: 30px;
+}
+
+ul li > :first-child, 
+ol li > :first-child, 
+ul li ul:first-of-type, 
+ol li ol:first-of-type, 
+ul li ol:first-of-type, 
+ol li ul:first-of-type {
+  margin-top: 0px;
+}
+
+ul ul, ul ol, ol ol, ol ul {
+  margin-bottom: 0;
+}
+
+dl {
+  padding: 0;
+}
+
+dl dt {
+  font-size: 14px;
+  font-weight: bold;
+  font-style: italic;
+  padding: 0;
+  margin: 15px 0 5px;
+}
+
+dl dt:first-child {
+  padding: 0;
+}
+
+dl dt>:first-child {
+  margin-top: 0px;
+}
+
+dl dt>:last-child {
+  margin-bottom: 0px;
+}
+
+dl dd {
+  margin: 0 0 15px;
+  padding: 0 15px;
+}
+
+dl dd>:first-child {
+  margin-top: 0px;
+}
+
+dl dd>:last-child {
+  margin-bottom: 0px;
+}
+
+/* CODE
+=============================================================================*/
+
+pre, code, tt {
+  font-size: 12px;
+  font-family: Consolas, "Liberation Mono", Courier, monospace;
+}
+
+code, tt {
+  margin: 0 0px;
+  padding: 0px 0px;
+  white-space: nowrap;
+  border: 1px solid #eaeaea;
+  background-color: #f8f8f8;
+  border-radius: 3px;
+}
+
+pre>code {
+  margin: 0;
+  padding: 0;
+  white-space: pre;
+  border: none;
+  background: transparent;
+}
+
+pre {
+  background-color: #f8f8f8;
+  border: 1px solid #ccc;
+  font-size: 13px;
+  line-height: 19px;
+  overflow: auto;
+  padding: 6px 10px;
+  border-radius: 3px;
+}
+
+pre code, pre tt {
+  background-color: transparent;
+  border: none;
+}
+
+kbd {
+    -moz-border-bottom-colors: none;
+    -moz-border-left-colors: none;
+    -moz-border-right-colors: none;
+    -moz-border-top-colors: none;
+    background-color: #DDDDDD;
+    background-image: linear-gradient(#F1F1F1, #DDDDDD);
+    background-repeat: repeat-x;
+    border-color: #DDDDDD #CCCCCC #CCCCCC #DDDDDD;
+    border-image: none;
+    border-radius: 2px 2px 2px 2px;
+    border-style: solid;
+    border-width: 1px;
+    font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+    line-height: 10px;
+    padding: 1px 4px;
+}
+
+/* QUOTES
+=============================================================================*/
+
+blockquote {
+  border-left: 4px solid #DDD;
+  padding: 0 15px;
+  color: #777;
+}
+
+blockquote>:first-child {
+  margin-top: 0px;
+}
+
+blockquote>:last-child {
+  margin-bottom: 0px;
+}
+
+/* HORIZONTAL RULES
+=============================================================================*/
+
+hr {
+  clear: both;
+  margin: 15px 0;
+  height: 0px;
+  overflow: hidden;
+  border: none;
+  background: transparent;
+  border-bottom: 4px solid #ddd;
+  padding: 0;
+}
+
+/* TABLES
+=============================================================================*/
+
+table th {
+  font-weight: bold;
+}
+
+table th, table td {
+  border: 1px solid #ccc;
+  padding: 6px 13px;
+}
+
+table tr {
+  border-top: 1px solid #ccc;
+  background-color: #fff;
+}
+
+table tr:nth-child(2n) {
+  background-color: #f8f8f8;
+}
+
+/* IMAGES
+=============================================================================*/
+
+img {
+  max-width: 100%
+}
+</style>
+</head>
+<body>
+<h2>本章概要</h2>
+<p>本章开始涉及编程练习，这里采用<strong>Python-sklearn</strong>的方式，环境搭建可参考<a href="http://blog.csdn.net/snoopy_yuan/article/details/61211639"> 数据挖掘入门：Python开发环境搭建（eclipse-pydev模式）</a>.</p>
+<p>相关答案和源代码托管在我的Github上：<a href="https://github.com/PY131/Machine-Learning_ZhouZhihua">PY131/Machine-Learning_ZhouZhihua</a>.</p>
+<p>本章讲述<strong>线性模型</strong>（linear mode），相关内容包括：</p>
+<ul>
+<li>线性回归（linear regression）</li>
+</ul>
+<blockquote>
+<p>序关系（order）、均方差（square error）最小化、欧式距离（Euclidean distance）、<strong>最小二乘法</strong>（least square method）、参数估计（parameter estimation）、多元线性回归（multivariate linear regression）、广义线性回归（generalized linear model）、对数线性回归（log-linear regression）；</p>
+</blockquote>
+<ul>
+<li>对数几率回归（逻辑回归）（logistic regression）</li>
+</ul>
+<blockquote>
+<p>分类、Sigmoid函数、对数几率（log odds / logit）、极大似然法（maximum likelihood method）；</p>
+</blockquote>
+<ul>
+<li>线性判别分析（linear discriminant analysis - LDA）</li>
+</ul>
+<blockquote>
+<p>类内散度（within-class scatter）、类间散度（between-class scatter）；</p>
+</blockquote>
+<ul>
+<li>多分类学习（multi-classifier）</li>
+</ul>
+<blockquote>
+<p>拆解法，一对一（One vs One - OvO）、一对其余（OvR）、多对多（MvM）、纠错输出码（ECOC）、编码矩阵（coding matrix）、二元码、多标记学习（multi-label learning）；</p>
+</blockquote>
+<ul>
+<li>类别不平衡（class-imbalance）</li>
+</ul>
+<blockquote>
+<p>再缩放（rescaling）、欠采样（undersampling）、过采样（oversampling）、阈值移动（threshold-moving）；</p>
+</blockquote>
+<h2>习题解答</h2>
+<h4>3.1 线性回归模型偏置项</h4>
+<blockquote>
+<p><img src="Ch3/3.1.png" /></p>
+</blockquote>
+<p>偏置项b在数值上代表了自变量取0时，因变量的取值；</p>
+<p>1.当讨论变量x对结果y的影响，不用考虑b；
+2.可以用变量归一化（max-min或z-score）来消除偏置。</p>
+<hr />
+<h4>3.2 证明对数似然函数是凸函数（参数存在最优解）</h4>
+<blockquote>
+<p><img src="Ch3/3.2.png" /></p>
+</blockquote>
+<p>直接给出证明结果如下图：</p>
+<blockquote>
+<p><img src="Ch3/3.2.1.png" /></p>
+</blockquote>
+<hr />
+<h4>3.3 编程实现对率回归</h4>
+<blockquote>
+<p><img src="Ch3/3.3.png" /></p>
+</blockquote>
+<p>所使用的数据集如下：</p>
+<blockquote>
+<p><img src="Ch3/3.3.1.png" /></p>
+</blockquote>
+<p>本题是本书的第一个编程练习，采用了自己编程实现和调用sklearn库函数两种不同的方式（<a href="https://github.com/PY131/Machine-Learning_ZhouZhihua/tree/master/ch3_linear_model/3.3_logistic_regression_watermelon/">查看完整代码</a>）：</p>
+<p>具体的实现过程见：<a href="http://blog.csdn.net/snoopy_yuan/article/details/63684219">周志华《机器学习》课后习题解答系列（四）：Ch3.3 - 编程实现对率回归</a></p>
+<hr />
+<h4>3.4 比较k折交叉验证法与留一法</h4>
+<blockquote>
+<p><img src="Ch3/3.4.png" /></p>
+</blockquote>
+<p>本题采用UCI中的----和----数据集，借助sklearn实现（<a href="https://github.com/PY131/Machine-Learning_ZhouZhihua/tree/master/ch3_linear_model/3.4_cross_validation">查看完整代码</a>）。</p>
+<p>具体的实现过程见：<a href="http://blog.csdn.net/snoopy_yuan/article/details/64131129">周志华《机器学习》课后习题解答系列（四）：Ch3 - 3.4.交叉验证法练习</a></p>
+<hr />
+<h4>3.5 编程实现线性判别分析</h4>
+<blockquote>
+<p><img src="Ch3/3.5.png" /></p>
+</blockquote>
+<p>本题采用题3.3的西瓜数据集，采用基于sklearn实现和自己独立编程实现两种方式（<a href="https://github.com/PY131/Machine-Learning_ZhouZhihua/tree/master/ch3_linear_model/3.5_LDA">查看完整代码</a>）。</p>
+<p>具体的实现过程见：<a href="http://blog.csdn.net/snoopy_yuan/article/details/64443841">周志华《机器学习》课后习题解答系列（四）：Ch3 - 3.5.编程实现线性判别分析</a></p>
+<hr />
+<h4>3.6 线性判别分析的非线性拓展思考</h4>
+<blockquote>
+<p><img src="Ch3/3.6.png" /></p>
+</blockquote>
+<p>给出两种思路：</p>
+<ul>
+<li>参考书p57，采用<strong>广义线性模型</strong>，如 y-&gt; ln(y)。</li>
+<li>参考书p137，采用<strong>核方法</strong>将非线性特征空间隐式映射到线性空间，得到<strong>KLDA</strong>（核线性判别分析）。</li>
+</ul>
+<hr />
+<h4>3.7 最优ECOC编码方式</h4>
+<blockquote>
+<p><img src="Ch3/3.7.png" /></p>
+</blockquote>
+<p>参考书p65，<em>对于同等长度的编码，理论上来说，任意两个类别间的编码距离越远，纠错能力越强</em>。那么如何实现呢，可参考文献<a href="http://www.ccs.neu.edu/home/vip/teach/MLcourse/4_boosting/lecture_notes/ecoc/ecoc.pdf">Error-Correcting Output Codes</a>。下图是截取文中的关于在较少类时采用<strong>exhaustive codes</strong>来生成最优ECOC二元码的过程：</p>
+<blockquote>
+<p><img src="Ch3/3.7.1.png" /></p>
+</blockquote>
+<p>采用文中方法，每两类的Hamming Distance均达到了码长的一半，这也是最优的编码方式之一。</p>
+<hr />
+<h4>3.9 多分类到二分类分解、类别不平衡</h4>
+<blockquote>
+<p><img src="Ch3/3.9.png" /></p>
+</blockquote>
+<p>参考书p66，<em>对OvR、MvM来说，由于对每类进行了相同的处理，其拆解出的二分类任务中类别不平衡的影响会相互抵销，因此通常不需专门处理。</em></p>
+<p>以<strong>OvR</strong>（一对其余）为例，由于其每次以一个类为正其余为反（参考书p63），共训练出N个分类器，在这一过程中，类别不平衡由O的遍历而抵消掉。</p>
+<hr />
+
+</body>
+</html>
+<!-- This document was created with MarkdownPad, the Markdown editor for Windows (http://markdownpad.com) -->

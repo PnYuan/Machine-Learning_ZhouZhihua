@@ -12,7 +12,10 @@ ps. all the code exercises are implemented by **Python-sklearn** in **eclipse-py
 - 证明对数似然是凸函数（convex functions）；
 - 编程实现对率回归（implementation of logistic regression）([here is the code](./ch3_linear_model/3.3_logistic_regression_watermelon/))；
 - 实验比较k-fold_CV和LOOCV（analysis of cross-validation）([here is the code](./ch3_linear_model/3.4_cross_validation/))；
-- 编程实现线性判别分析（implementation of LDA）（[here is the code](./ch3_linear_model/3.5_LDA/)）
+- 编程实现线性判别分析（implementation of LDA）（[here is the code](./ch3_linear_model/3.5_LDA/)）；
+- 线性判别分析的非线性拓展（nonlinear stretching of LDA）；
+- 最优ECOC编码方式；
+- 多分类到二分类分解时类别不平衡的考虑（class-imbalance）。
 
 ### [Ch2.Model Evaluation and Selection (模型评估与选择)](./ch2_model_evaluation_and_selection/) ###
 

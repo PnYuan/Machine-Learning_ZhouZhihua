@@ -1,0 +1,409 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>周志华《机器学习》课后习题解答系列（四）：Ch3.5 - 编程实现线性判别分析</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<style type="text/css">
+/* GitHub stylesheet for MarkdownPad (http://markdownpad.com) */
+/* Author: Nicolas Hery - http://nicolashery.com */
+/* Version: b13fe65ca28d2e568c6ed5d7f06581183df8f2ff */
+/* Source: https://github.com/nicolahery/markdownpad-github */
+
+/* RESET
+=============================================================================*/
+
+html, body, div, span, applet, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, pre, a, abbr, acronym, address, big, cite, code, del, dfn, em, img, ins, kbd, q, s, samp, small, strike, strong, sub, sup, tt, var, b, u, i, center, dl, dt, dd, ol, ul, li, fieldset, form, label, legend, table, caption, tbody, tfoot, thead, tr, th, td, article, aside, canvas, details, embed, figure, figcaption, footer, header, hgroup, menu, nav, output, ruby, section, summary, time, mark, audio, video {
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+
+/* BODY
+=============================================================================*/
+
+body {
+  font-family: Helvetica, arial, freesans, clean, sans-serif;
+  font-size: 14px;
+  line-height: 1.6;
+  color: #333;
+  background-color: #fff;
+  padding: 20px;
+  max-width: 960px;
+  margin: 0 auto;
+}
+
+body>*:first-child {
+  margin-top: 0 !important;
+}
+
+body>*:last-child {
+  margin-bottom: 0 !important;
+}
+
+/* BLOCKS
+=============================================================================*/
+
+p, blockquote, ul, ol, dl, table, pre {
+  margin: 15px 0;
+}
+
+/* HEADERS
+=============================================================================*/
+
+h1, h2, h3, h4, h5, h6 {
+  margin: 20px 0 10px;
+  padding: 0;
+  font-weight: bold;
+  -webkit-font-smoothing: antialiased;
+}
+
+h1 tt, h1 code, h2 tt, h2 code, h3 tt, h3 code, h4 tt, h4 code, h5 tt, h5 code, h6 tt, h6 code {
+  font-size: inherit;
+}
+
+h1 {
+  font-size: 28px;
+  color: #000;
+}
+
+h2 {
+  font-size: 24px;
+  border-bottom: 1px solid #ccc;
+  color: #000;
+}
+
+h3 {
+  font-size: 18px;
+}
+
+h4 {
+  font-size: 16px;
+}
+
+h5 {
+  font-size: 14px;
+}
+
+h6 {
+  color: #777;
+  font-size: 14px;
+}
+
+body>h2:first-child, body>h1:first-child, body>h1:first-child+h2, body>h3:first-child, body>h4:first-child, body>h5:first-child, body>h6:first-child {
+  margin-top: 0;
+  padding-top: 0;
+}
+
+a:first-child h1, a:first-child h2, a:first-child h3, a:first-child h4, a:first-child h5, a:first-child h6 {
+  margin-top: 0;
+  padding-top: 0;
+}
+
+h1+p, h2+p, h3+p, h4+p, h5+p, h6+p {
+  margin-top: 10px;
+}
+
+/* LINKS
+=============================================================================*/
+
+a {
+  color: #4183C4;
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+/* LISTS
+=============================================================================*/
+
+ul, ol {
+  padding-left: 30px;
+}
+
+ul li > :first-child, 
+ol li > :first-child, 
+ul li ul:first-of-type, 
+ol li ol:first-of-type, 
+ul li ol:first-of-type, 
+ol li ul:first-of-type {
+  margin-top: 0px;
+}
+
+ul ul, ul ol, ol ol, ol ul {
+  margin-bottom: 0;
+}
+
+dl {
+  padding: 0;
+}
+
+dl dt {
+  font-size: 14px;
+  font-weight: bold;
+  font-style: italic;
+  padding: 0;
+  margin: 15px 0 5px;
+}
+
+dl dt:first-child {
+  padding: 0;
+}
+
+dl dt>:first-child {
+  margin-top: 0px;
+}
+
+dl dt>:last-child {
+  margin-bottom: 0px;
+}
+
+dl dd {
+  margin: 0 0 15px;
+  padding: 0 15px;
+}
+
+dl dd>:first-child {
+  margin-top: 0px;
+}
+
+dl dd>:last-child {
+  margin-bottom: 0px;
+}
+
+/* CODE
+=============================================================================*/
+
+pre, code, tt {
+  font-size: 12px;
+  font-family: Consolas, "Liberation Mono", Courier, monospace;
+}
+
+code, tt {
+  margin: 0 0px;
+  padding: 0px 0px;
+  white-space: nowrap;
+  border: 1px solid #eaeaea;
+  background-color: #f8f8f8;
+  border-radius: 3px;
+}
+
+pre>code {
+  margin: 0;
+  padding: 0;
+  white-space: pre;
+  border: none;
+  background: transparent;
+}
+
+pre {
+  background-color: #f8f8f8;
+  border: 1px solid #ccc;
+  font-size: 13px;
+  line-height: 19px;
+  overflow: auto;
+  padding: 6px 10px;
+  border-radius: 3px;
+}
+
+pre code, pre tt {
+  background-color: transparent;
+  border: none;
+}
+
+kbd {
+    -moz-border-bottom-colors: none;
+    -moz-border-left-colors: none;
+    -moz-border-right-colors: none;
+    -moz-border-top-colors: none;
+    background-color: #DDDDDD;
+    background-image: linear-gradient(#F1F1F1, #DDDDDD);
+    background-repeat: repeat-x;
+    border-color: #DDDDDD #CCCCCC #CCCCCC #DDDDDD;
+    border-image: none;
+    border-radius: 2px 2px 2px 2px;
+    border-style: solid;
+    border-width: 1px;
+    font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+    line-height: 10px;
+    padding: 1px 4px;
+}
+
+/* QUOTES
+=============================================================================*/
+
+blockquote {
+  border-left: 4px solid #DDD;
+  padding: 0 15px;
+  color: #777;
+}
+
+blockquote>:first-child {
+  margin-top: 0px;
+}
+
+blockquote>:last-child {
+  margin-bottom: 0px;
+}
+
+/* HORIZONTAL RULES
+=============================================================================*/
+
+hr {
+  clear: both;
+  margin: 15px 0;
+  height: 0px;
+  overflow: hidden;
+  border: none;
+  background: transparent;
+  border-bottom: 4px solid #ddd;
+  padding: 0;
+}
+
+/* TABLES
+=============================================================================*/
+
+table th {
+  font-weight: bold;
+}
+
+table th, table td {
+  border: 1px solid #ccc;
+  padding: 6px 13px;
+}
+
+table tr {
+  border-top: 1px solid #ccc;
+  background-color: #fff;
+}
+
+table tr:nth-child(2n) {
+  background-color: #f8f8f8;
+}
+
+/* IMAGES
+=============================================================================*/
+
+img {
+  max-width: 100%
+}
+</style>
+</head>
+<body>
+<p>本系列主要采用<strong>Python-sklearn</strong>实现，环境搭建可参考<a href="http://blog.csdn.net/snoopy_yuan/article/details/61211639"> 数据挖掘入门：Python开发环境搭建（eclipse-pydev模式）</a>.</p>
+<p>相关答案和源代码托管在我的Github上：<a href="https://github.com/PY131/Machine-Learning_ZhouZhihua">PY131/Machine-Learning_ZhouZhihua</a>.</p>
+<h3>3.5 编程实现线性判别分析（LDA）</h3>
+<blockquote>
+<p><img src="Ch3/3.5.png" /></p>
+</blockquote>
+<p>本题采用题3.3中的西瓜数据集如下图示：</p>
+<blockquote>
+<p><img src="Ch3/3.3.1.png" /></p>
+</blockquote>
+<p>这里采用基于<strong>sklearn</strong>和<strong>自己编程实现</strong>两种方式实现线性判别分析（<a href="https://github.com/PY131/Machine-Learning_ZhouZhihua/tree/master/ch3_linear_model/3.5_LDA">查看完整代码</a>）。</p>
+<p>关于数据集的介绍：</p>
+<p>具体过程如下：</p>
+<h4>1. 数据导入、可视化、预分析：</h4>
+<p>可以参照<a href="http://blog.csdn.net/snoopy_yuan/article/details/63684219">周志华《机器学习》课后习题解答系列（四）：Ch3.3 - 编程实现对率回归</a>中的第一步。</p>
+<h4>2. 采用sklean得到线性判别分析模型：</h4>
+<p>采用sklearn.discriminant_analysis.LinearDiscriminantAnalysis直接实现基础的LDA，通过分割数据集，在训练集上训练数据，在预测集上度量模型优劣。</p>
+<p>给出样例代码如下：</p>
+<pre><code>from sklearn import model_selection
+from sklearn.discriminant_analysis import LinearDiscriminantAnalysis
+from sklearn import metrics
+import matplotlib.pyplot as plt
+
+# generalization of train and test set
+X_train, X_test, y_train, y_test = model_selection.train_test_split(X, y, test_size=0.5, random_state=0)
+
+# model fitting
+lda_model = LinearDiscriminantAnalysis(solver='lsqr', shrinkage=None).fit(X, y)
+
+# model validation
+y_pred = lda_model.predict(X_test)
+
+# summarize the fit of the model
+print(metrics.confusion_matrix(y_test, y_pred))
+print(metrics.classification_report(y_test, y_pred))
+</code></pre>
+
+<p>得出的混淆矩阵及相关度量结果如下：</p>
+<pre><code>[[4 1]
+ [1 3]]
+             precision    recall  f1-score   support
+
+        0.0       0.80      0.80      0.80         5
+        1.0       0.75      0.75      0.75         4
+
+avg / total       0.78      0.78      0.78         9
+</code></pre>
+
+<p>可以看出，由于数据集的散度不太明显，得出的类别判断存在较大误差。总体来看，这里的线性判别分类器与3.3题的对率回归性能相当（accuracy≈0.78）。</p>
+<p>基于matplotlib绘制出LDA的分类区域如下图示：</p>
+<blockquote>
+<p><img src="Ch3/3.5.2.png" /></p>
+</blockquote>
+<p>可以看出，由于数据集的散度不太明显，决策边界存在较大误差。</p>
+<h4>3. 自己编程实现线性判别分析：</h4>
+<p>关于LDA的原理及参数求解，可参考书上p61、62。所谓线性判别。类似PCA，LDA可将较高维数据投影到较低维空间上，分析其降维后的数据特征的类别区分情况。</p>
+<p>这里采用西瓜数据集，包含2个属性（特征），一个类标签（二分类0、1）。在此上运用LDA，即是要找到最优直线，映射到直线上的数据特征类分明显。</p>
+<p>如何区分类别呢？采用类内散度（within-class scatter）最小化，类间散度（between-class scatter）最大化，关于散度的定义参考书中p61式(3.33)和(3.34)。</p>
+<p>优化目标为最大化下式（Sw-类内散度，Sb-类间散度，w-直线方向向量）：</p>
+<blockquote>
+<p><img src="Ch3/3.5.0.1.png" /></p>
+</blockquote>
+<p>我们的目的是最大化上面的式子，根据书中推导，最优解（直线参数）如下式：</p>
+<blockquote>
+<p><img src="Ch3/3.5.0.2.png" /></p>
+</blockquote>
+<p>相关详细过程参考树p61-62页。</p>
+<ul>
+<li>编程：根据式3.39计算w：</li>
+</ul>
+<p>样例代码如下：</p>
+<pre><code># computing the d-dimensional mean vectors
+import numpy as np
+
+# 1-st. get the mean vector of each class
+u = []  
+for i in range(2): # two class
+    u.append(np.mean(X[y==i], axis=0))  # column mean
+
+# 2-nd. computing the within-class scatter matrix, refer on book (3.33)
+m,n = np.shape(X)
+Sw = np.zeros((n,n))
+for i in range(m):
+    x_tmp = X[i].reshape(n,1)  # row -&gt; cloumn vector
+    if y[i] == 0: u_tmp = u[0].reshape(n,1)
+    if y[i] == 1: u_tmp = u[1].reshape(n,1)
+    Sw += np.dot( x_tmp - u_tmp, (x_tmp - u_tmp).T )
+
+# 3-th. computing the parameter w, refer on book (3.39)
+w = np.dot( Sw**-1, (u[0] - u[1]).reshape(n,1) )  # here we use a**-1 to get the inverse of a ndarray
+</code></pre>
+
+<ul>
+<li>绘制LDA直线并作数据点投影来查看类簇情况：</li>
+</ul>
+<p>通过绘制投影的方式，可视化西瓜数据在LDA直线上类簇情况（<a href="https://github.com/PY131/Machine-Learning_ZhouZhihua/tree/master/ch3_linear_model/3.5_LDA">查看相关代码</a>），如下图示：</p>
+<blockquote>
+<p><img src="Ch3/3.5.3.1.png" /></p>
+</blockquote>
+<p>从上图看出，由于数据线性不可分，则出现类簇重叠现象。接下来，通过观查数据，我们考虑将西瓜数据集中的bad类离群点15删去（即图中左上的黑点）此时数据集的线性可分性大大提高。</p>
+<p>然后再次采用LDA进行映射，得到结果图如下：</p>
+<blockquote>
+<p><img src="Ch3/3.5.3.2.png" /></p>
+</blockquote>
+<p>可以看出，在数据集变得线性可分时，二维点到一维LDA直线的投影出现明显的分类，此时LDA分类器效果很好。</p>
+<p>综上所述，由于西瓜数据集自身非线性因素，LDA所得直线未能很好的表现出类别的分簇情景，说明，<strong>LDA基本模型不太适用于线性不可分</strong>的情况。要拓展到非线性，或许可以考虑<strong>SVM-核技巧</strong>。</p>
+<hr />
+<p>本文的重要列出索引如下：</p>
+<ul>
+<li><a href="http://sebastianraschka.com/Articles/2014_python_lda.html">LDA详细介绍及其本质剖析</a></li>
+<li><a href="http://scikit-learn.org/stable/auto_examples/classification/plot_lda.html#sphx-glr-auto-examples-classification-plot-lda-py">sklearn官网 - LDA for classfication</a></li>
+</ul>
+
+</body>
+</html>
+<!-- This document was created with MarkdownPad, the Markdown editor for Windows (http://markdownpad.com) -->
