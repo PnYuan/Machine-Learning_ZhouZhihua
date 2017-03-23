@@ -3,7 +3,7 @@
 
 相关答案和源代码托管在我的Github上：[PY131/Machine-Learning_ZhouZhihua](https://github.com/PY131/Machine-Learning_ZhouZhihua).
 
-本章讲述**线性模型**（linear mode），相关内容包括：
+本章讲述**线性模型**（linear model），相关内容包括：
 
 - 线性回归（linear regression）
 
@@ -63,7 +63,7 @@
 #### 3.4 比较k折交叉验证法与留一法 ####
 > ![](Ch3/3.4.png)
 
-本题采用UCI中的----和----数据集，借助sklearn实现（[查看完整代码](https://github.com/PY131/Machine-Learning_ZhouZhihua/tree/master/ch3_linear_model/3.4_cross_validation)）。
+本题采用UCI中的[iris data set](http://archive.ics.uci.edu/ml/datasets/Iris) 和 [Blood Transfusion Service Center Data Set](http://archive.ics.uci.edu/ml/datasets/Blood+Transfusion+Service+Center) 数据集，借助sklearn实现（[查看完整代码](https://github.com/PY131/Machine-Learning_ZhouZhihua/tree/master/ch3_linear_model/3.4_cross_validation)）。
 
 具体的实现过程见：[周志华《机器学习》课后习题解答系列（四）：Ch3 - 3.4.交叉验证法练习](http://blog.csdn.net/snoopy_yuan/article/details/64131129)
 
