@@ -109,7 +109,7 @@ print("\naverage accuracy: %.3f" % (accuracy_sum/k))
 # dicision tree visualization using pydotplus.graphviz
 root = decision_tree.TreeGenerate(df)
 
-decision_tree.DrawPDF(root, "decision_tree_ID3.png")
+decision_tree.DrawPNG(root, "decision_tree_ID3.png")
 
 
 

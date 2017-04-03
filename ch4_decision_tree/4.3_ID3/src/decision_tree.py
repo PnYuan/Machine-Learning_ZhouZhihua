@@ -219,7 +219,7 @@ def InfoEnt(label_arr):
     
     return ent
 
-def DrawPDF(root, out_file):
+def DrawPNG(root, out_file):
     '''
     visualization of decision tree from root.
     @param root: Node, the root node for tree.
