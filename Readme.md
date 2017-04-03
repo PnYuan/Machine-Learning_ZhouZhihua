@@ -2,7 +2,14 @@
 -----
 My answers (i.e. ideas, code) for the book "Machine Learning (机器学习)" written by Prof. Zhou Zhihua.
 
-ps. all the code exercises are implemented by **Python-sklearn** in **eclipse-pydev** env.
+ps. all the code exercises are implemented by **Python** in **eclipse-pydev** env. many of them are based on **sklearn**.
+
+### [Ch4.Decision Tree (决策树)](./ch4_decision_tree/) ###
+
+练习包括(exercises includ)：
+
+- 编程实现ID3算法（implementation of ID3）([here is the code](./ch4_decision_tree/4.3_ID3/))；
+
 
 ### [Ch3.Linear Model (线性模型)](./ch3_linear_model/) ###
 
