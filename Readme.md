@@ -9,7 +9,7 @@ ps. all the code exercises are implemented by **Python** in **eclipse-pydev** en
 练习包括(exercises includ)：
 
 - 编程实现ID3算法（implementation of ID3）([here is the code](./ch4_decision_tree/4.3_ID3/))；
-
+- 编程实现CART算法与剪枝操作（implementation of CART and pruning）([here is the code](./ch4_decision_tree/4.4_CART/))；
 
 ### [Ch3.Linear Model (线性模型)](./ch3_linear_model/) ###
 
