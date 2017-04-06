@@ -9,7 +9,7 @@ for more info: welcome to my blog: [Snoopy_Yuan的博客](http://blog.csdn.net/s
 
 ### [Ch4.Decision Tree (决策树)](./ch4_decision_tree/) ###
 
-练习包括(exercises includ)：
+练习包括(exercises include)：
 
 - 决策树划分选择准则；
 - 编程实现ID3算法（implementation of ID3）([here is the code](./ch4_decision_tree/4.3_ID3/))；
@@ -19,7 +19,7 @@ for more info: welcome to my blog: [Snoopy_Yuan的博客](http://blog.csdn.net/s
 
 ### [Ch3.Linear Model (线性模型)](./ch3_linear_model/) ###
 
-练习包括(exercises includ)：
+练习包括(exercises include)：
 
 - 分析偏置项b（bias terms）；
 - 证明对数似然是凸函数（convex functions）；
@@ -32,7 +32,7 @@ for more info: welcome to my blog: [Snoopy_Yuan的博客](http://blog.csdn.net/s
 
 ### [Ch2.Model Evaluation and Selection (模型评估与选择)](./ch2_model_evaluation_and_selection/) ###
 
-练习包括(exercises includ)：
+练习包括(exercises include)：
 
 - 分层抽样(stratified sampling)划分训练集与测试集；
 - 留一法(leave-one-out)与k-折交叉验证法(k-fold cross validation)比较;
@@ -44,7 +44,7 @@ for more info: welcome to my blog: [Snoopy_Yuan的博客](http://blog.csdn.net/s
 
 ### [Ch1.Introduction (绪论)](./ch1_introduction/) ###
 
-练习包括(exercises includ)：
+练习包括(exercises include)：
 
 - 求版本空间(version space)；
 - 析合范式(disjunctive normal form)提升假设空间(hypothesis space)；
