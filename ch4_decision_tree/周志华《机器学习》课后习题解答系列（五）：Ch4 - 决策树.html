@@ -1,0 +1,469 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>周志华《机器学习》课后习题解答系列（五）：Ch4 - 决策树</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<style type="text/css">
+/* GitHub stylesheet for MarkdownPad (http://markdownpad.com) */
+/* Author: Nicolas Hery - http://nicolashery.com */
+/* Version: b13fe65ca28d2e568c6ed5d7f06581183df8f2ff */
+/* Source: https://github.com/nicolahery/markdownpad-github */
+
+/* RESET
+=============================================================================*/
+
+html, body, div, span, applet, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, pre, a, abbr, acronym, address, big, cite, code, del, dfn, em, img, ins, kbd, q, s, samp, small, strike, strong, sub, sup, tt, var, b, u, i, center, dl, dt, dd, ol, ul, li, fieldset, form, label, legend, table, caption, tbody, tfoot, thead, tr, th, td, article, aside, canvas, details, embed, figure, figcaption, footer, header, hgroup, menu, nav, output, ruby, section, summary, time, mark, audio, video {
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+
+/* BODY
+=============================================================================*/
+
+body {
+  font-family: Helvetica, arial, freesans, clean, sans-serif;
+  font-size: 14px;
+  line-height: 1.6;
+  color: #333;
+  background-color: #fff;
+  padding: 20px;
+  max-width: 960px;
+  margin: 0 auto;
+}
+
+body>*:first-child {
+  margin-top: 0 !important;
+}
+
+body>*:last-child {
+  margin-bottom: 0 !important;
+}
+
+/* BLOCKS
+=============================================================================*/
+
+p, blockquote, ul, ol, dl, table, pre {
+  margin: 15px 0;
+}
+
+/* HEADERS
+=============================================================================*/
+
+h1, h2, h3, h4, h5, h6 {
+  margin: 20px 0 10px;
+  padding: 0;
+  font-weight: bold;
+  -webkit-font-smoothing: antialiased;
+}
+
+h1 tt, h1 code, h2 tt, h2 code, h3 tt, h3 code, h4 tt, h4 code, h5 tt, h5 code, h6 tt, h6 code {
+  font-size: inherit;
+}
+
+h1 {
+  font-size: 28px;
+  color: #000;
+}
+
+h2 {
+  font-size: 24px;
+  border-bottom: 1px solid #ccc;
+  color: #000;
+}
+
+h3 {
+  font-size: 18px;
+}
+
+h4 {
+  font-size: 16px;
+}
+
+h5 {
+  font-size: 14px;
+}
+
+h6 {
+  color: #777;
+  font-size: 14px;
+}
+
+body>h2:first-child, body>h1:first-child, body>h1:first-child+h2, body>h3:first-child, body>h4:first-child, body>h5:first-child, body>h6:first-child {
+  margin-top: 0;
+  padding-top: 0;
+}
+
+a:first-child h1, a:first-child h2, a:first-child h3, a:first-child h4, a:first-child h5, a:first-child h6 {
+  margin-top: 0;
+  padding-top: 0;
+}
+
+h1+p, h2+p, h3+p, h4+p, h5+p, h6+p {
+  margin-top: 10px;
+}
+
+/* LINKS
+=============================================================================*/
+
+a {
+  color: #4183C4;
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+/* LISTS
+=============================================================================*/
+
+ul, ol {
+  padding-left: 30px;
+}
+
+ul li > :first-child, 
+ol li > :first-child, 
+ul li ul:first-of-type, 
+ol li ol:first-of-type, 
+ul li ol:first-of-type, 
+ol li ul:first-of-type {
+  margin-top: 0px;
+}
+
+ul ul, ul ol, ol ol, ol ul {
+  margin-bottom: 0;
+}
+
+dl {
+  padding: 0;
+}
+
+dl dt {
+  font-size: 14px;
+  font-weight: bold;
+  font-style: italic;
+  padding: 0;
+  margin: 15px 0 5px;
+}
+
+dl dt:first-child {
+  padding: 0;
+}
+
+dl dt>:first-child {
+  margin-top: 0px;
+}
+
+dl dt>:last-child {
+  margin-bottom: 0px;
+}
+
+dl dd {
+  margin: 0 0 15px;
+  padding: 0 15px;
+}
+
+dl dd>:first-child {
+  margin-top: 0px;
+}
+
+dl dd>:last-child {
+  margin-bottom: 0px;
+}
+
+/* CODE
+=============================================================================*/
+
+pre, code, tt {
+  font-size: 12px;
+  font-family: Consolas, "Liberation Mono", Courier, monospace;
+}
+
+code, tt {
+  margin: 0 0px;
+  padding: 0px 0px;
+  white-space: nowrap;
+  border: 1px solid #eaeaea;
+  background-color: #f8f8f8;
+  border-radius: 3px;
+}
+
+pre>code {
+  margin: 0;
+  padding: 0;
+  white-space: pre;
+  border: none;
+  background: transparent;
+}
+
+pre {
+  background-color: #f8f8f8;
+  border: 1px solid #ccc;
+  font-size: 13px;
+  line-height: 19px;
+  overflow: auto;
+  padding: 6px 10px;
+  border-radius: 3px;
+}
+
+pre code, pre tt {
+  background-color: transparent;
+  border: none;
+}
+
+kbd {
+    -moz-border-bottom-colors: none;
+    -moz-border-left-colors: none;
+    -moz-border-right-colors: none;
+    -moz-border-top-colors: none;
+    background-color: #DDDDDD;
+    background-image: linear-gradient(#F1F1F1, #DDDDDD);
+    background-repeat: repeat-x;
+    border-color: #DDDDDD #CCCCCC #CCCCCC #DDDDDD;
+    border-image: none;
+    border-radius: 2px 2px 2px 2px;
+    border-style: solid;
+    border-width: 1px;
+    font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+    line-height: 10px;
+    padding: 1px 4px;
+}
+
+/* QUOTES
+=============================================================================*/
+
+blockquote {
+  border-left: 4px solid #DDD;
+  padding: 0 15px;
+  color: #777;
+}
+
+blockquote>:first-child {
+  margin-top: 0px;
+}
+
+blockquote>:last-child {
+  margin-bottom: 0px;
+}
+
+/* HORIZONTAL RULES
+=============================================================================*/
+
+hr {
+  clear: both;
+  margin: 15px 0;
+  height: 0px;
+  overflow: hidden;
+  border: none;
+  background: transparent;
+  border-bottom: 4px solid #ddd;
+  padding: 0;
+}
+
+/* TABLES
+=============================================================================*/
+
+table th {
+  font-weight: bold;
+}
+
+table th, table td {
+  border: 1px solid #ccc;
+  padding: 6px 13px;
+}
+
+table tr {
+  border-top: 1px solid #ccc;
+  background-color: #fff;
+}
+
+table tr:nth-child(2n) {
+  background-color: #f8f8f8;
+}
+
+/* IMAGES
+=============================================================================*/
+
+img {
+  max-width: 100%
+}
+</style>
+</head>
+<body>
+<p>本章所涉及编程练习采用<strong>Python-sklearn</strong>的方式，环境搭建可参考<a href="http://blog.csdn.net/snoopy_yuan/article/details/61211639"> 数据挖掘入门：Python开发环境搭建（eclipse-pydev模式）</a>.</p>
+<p>查看相关答案和源代码，欢迎访问我的Github：<a href="https://github.com/PY131/Machine-Learning_ZhouZhihua">PY131/Machine-Learning_ZhouZhihua</a>.</p>
+<h2>本章概要</h2>
+<p>本章讲述<strong>决策树</strong>（decision tree），相关内容包括：</p>
+<ul>
+<li>决策树生成（construction）</li>
+</ul>
+<blockquote>
+<p>子决策（sub-decision）、递归生成算法（basic algorithm）、最优划分属性、纯度（purity）、信息熵（information entropy）、信息增益（information gain）、<strong>ID3</strong> 、增益率（gain ratio）、<strong>C4.5</strong> 、基尼指数（gini index）、<strong>CART</strong>；</p>
+</blockquote>
+<ul>
+<li>剪枝（pruning）</li>
+</ul>
+<blockquote>
+<p>过拟合、泛化能力、<strong>预剪枝</strong>（prepruning）（自上而下）、决策树桩（decision stump）、欠拟合、<strong>后剪枝</strong>（postpruning）（自下而上）、完全树。</p>
+</blockquote>
+<ul>
+<li>连续属性、缺失值（continuous variables, missing values）</li>
+</ul>
+<blockquote>
+<p>连续属性离散化、二分法（bi-partition）、值缺失时属性划分、缺值样本划分、权重、加权信息增益；</p>
+</blockquote>
+<ul>
+<li>多变量决策树（multivariate decision tree）</li>
+</ul>
+<blockquote>
+<p>斜划分、斜决策树（oblique decision tree）、非叶节点-线性分类器；</p>
+</blockquote>
+<p>此外还提及了C4.5Rule、OC1、感知机树等拓展方法，以及<strong>增量学习</strong>算法ID4、ID5R、ITI等；</p>
+<h2>决策树的优劣总结</h2>
+<p>根据<a href="http://scikit-learn.org/stable/modules/tree.html">sklearn官网 - 1.10.Decision Trees</a>总结如下：</p>
+<ol>
+<li>
+<p>优势（Advantages）：</p>
+<ul>
+<li>易理解，解释性好，易可视化；</li>
+<li>数据预处理少；</li>
+<li>复杂度O(logN)；</li>
+<li>支持标称变量+连续变量；</li>
+<li>支持多输出；</li>
+<li>白盒模型，布尔逻辑；</li>
+<li>模型好坏易验证；</li>
+<li>容忍先验知识错；</li>
+</ul>
+</li>
+<li>
+<p>劣势（Disadvantages）：</p>
+<ul>
+<li>决策树生成易太大、<strong>过拟合</strong>；（需要<strong>剪枝<strong>、设置树</strong>最大深度</strong>等后续操作。）</li>
+<li>模型生成<strong>不稳定</strong>，易受小错误样本影响；</li>
+<li>学习最优模型是<strong>N-P难题</strong>，贪心搜索易陷入<strong>局部最优</strong>；（可采用随机初始化生成多个模型。）</li>
+<li>不支持非线性逻辑，如<strong>XOR</strong>；</li>
+<li><strong>数据不平衡</strong>时生成的树形差；</li>
+</ul>
+</li>
+</ol>
+<h2>课后练习</h2>
+<h4>4.1 冲突数据影响决策树</h4>
+<blockquote>
+<p><img src="Ch4/4.1.png" /></p>
+</blockquote>
+<p>考虑决策树的生成（书p74图4.2），算法生成叶节点，并<strong>递归返回条件</strong>有：</p>
+<ul>
+<li>当前节点的所有样本属于同一类，叶节点类标签 -&gt; 当前类；</li>
+<li>当前节点的所有样本在属性上取值相同，叶节点类标签 -&gt; 样本中最多类；</li>
+</ul>
+<p>由此可见，若两训练数据样本特征向量相同，那么它们会到达决策树的同一叶节点（只代表某一类），若二者数据标签不同（冲突数据），则会出现训练误差，决策树与训练集不一致。</p>
+<p>如果没有冲突数据，到达某节点的样本会出现以下两种情况：</p>
+<ul>
+<li>样本间特征向量相同且属于同一类，满足递归结束条件，该节点为叶节点，类标签正确（无训练误差）；</li>
+<li>样本间特征向量不同时，递归结束条件不满足，数据会根据属性继续划分，直到上一条情况出现。</li>
+</ul>
+<p>综上得证，当数据集不含冲突数据时，必存在与训练集一致（训练误差为0）的决策树。</p>
+<hr />
+<h4>4.2 决策树划分选择准则</h4>
+<blockquote>
+<p><img src="Ch4/4.2.png" /></p>
+</blockquote>
+<p>由于训练集和真实集往往存在差异，若采用训练误差作为度量，模型常会出现<strong>过拟合</strong>，导致<strong>泛化能力</strong>差。</p>
+<hr />
+<h4>4.3 编程实现ID3算法</h4>
+<blockquote>
+<p><img src="Ch4/4.3.png" /></p>
+</blockquote>
+<p>即ID3算法，这里我们基于Python独立编程实现。详细过程见：</p>
+<p><a href="http://blog.csdn.net/snoopy_yuan/article/details/68959025">周志华《机器学习》课后习题解答系列（五）：Ch4.3 - 编程实现ID3算法</a></p>
+<hr />
+<h4>4.4 编程实现CART算法与剪枝操作</h4>
+<blockquote>
+<p><img src="Ch4/4.4.png" /></p>
+</blockquote>
+<p>即CART算法，这里我们基于Python独立编程实现。详细过程见：</p>
+<p><a href="http://blog.csdn.net/snoopy_yuan/article/details/69223240">周志华《机器学习》课后习题解答系列（五）：Ch4.4 - 编程实现CART算法与剪枝操作</a></p>
+<hr />
+<h4>4.5 基于对率回归进行划分选择</h4>
+<blockquote>
+<p><img src="Ch4/4.5.png" /></p>
+</blockquote>
+<p>这里提一下我的思路：
+参考书p90-91的<strong>多变量决策树</strong>模型，这里我们将每个非叶节点作为一个对率回归分类器，输出为&quot;是&quot;、&quot;否&quot;两类，形成形如二叉树的决策树。</p>
+<hr />
+<h4>4.6 各种决策树算法的比较</h4>
+<blockquote>
+<p><img src="Ch4/4.6.png" /></p>
+</blockquote>
+<p>简要的分析一下：</p>
+<ul>
+<li><strong>ID3</strong>算法基于信息熵增益，<strong>CART<strong>算法则采用了基尼系数。两种划分属性选择均是基于</strong>数据纯度</strong>的角度，方法差距应该不大（CART可能要好一点）。而<strong>对率回归</strong>进行划分选择，以<strong>斜划分</strong>的方式，实现了多变量参与划分，其模型决策边界更光滑。</li>
+<li>相比于决策树的生成算法，<strong>剪枝操作</strong>更影响模型性能。</li>
+</ul>
+<hr />
+<h4>4.7 非递归决策树生成算法 - DFS</h4>
+<blockquote>
+<p><img src="Ch4/4.7.png" /></p>
+</blockquote>
+<p>下面主要是本题的一种视角：</p>
+<p>首先做一些分析：</p>
+<ul>
+<li>从数据结构算法的角度来看，生成一棵树常用<strong>递归</strong>和<strong>迭代</strong>两种模式。</li>
+<li>采用递归时，由于在递归时要存储程序入口出口指针和大量临时变量等，会涉及到不断的压栈与出栈，当递归层次加深，压栈多于出栈，内存消耗扩大。</li>
+<li>这里要采用<strong>队列</strong>数据结构来生成决策树，虽然避免了递归操作产生的内存消耗，但需要更大的额外存储空间。</li>
+<li>用MaxDepth来控制树的深度，即<strong>深度优先</strong>（Depth Fisrt）的形式，一般来说，使用递归实现相对容易，当然也可以用非递归来实现。</li>
+</ul>
+<p>下面设计出基于<strong>队列+深度控制</strong>的决策树非递归生成算法：</p>
+<pre><code>----
+输入: 训练集 D = {(x1,y1),(x2,y2),...,(xm,ym)}.
+      属性集 A = {a1, a2,...,ad}.
+
+过程: 函数 TreeGenerate(D,A):
+1. 生成根节点 root;
+2. 初始化深度 depth = 0;
+3. 生成栈 stack （为保存顶节点root及其对应的数据D和深度depth）;
+4. 
+5. while D != Φ OR stack不为空:
+6.     if D != Φ, then
+7.         if D中样本全属于同一类别C, then
+8.             root标记为C类叶节点, D = Φ, continue;
+9.         end if
+10.        if depth == MaxDepth OR D中样本在属性A上取值相同, then
+11.             root标记为D取值中最多类的叶节点, D = Φ, continue;
+12.        end if
+13.        从A中选择最优划分属性a*, 令Dv表示D中在a*上取值为a*v的样本子集;
+14.        生成子节点 child, 为root建立分支指向child;
+15.        将[root, D\{Dv}, A, depth]压入栈stack;
+16.        令 root = child, D = Dv, A = A\{a*}, depth = depth+1;
+17.    else
+18.        从stack中弹出[root, D, A, depth];
+19.    end if
+
+输出: 树的根节点root.(即以root为根节点的树) 
+----
+</code></pre>
+
+<p>实际上，这里的算法实用的是栈而非完全意义上的队列。</p>
+<p>个人认为，从数据结构的角度来看，栈和队列的最大区别在于FILO和FIFO，即<strong>存取元素时索引的区别</strong>，并不存在太大的存储实现区别。进一步说明，对于很多程序环境，如C++,Java等，均可以基于队列（Queue）构造栈（Stack）结构，由此构建的栈数据结构和队列底数据结构层实现相同。</p>
+<p>题干中所说的栈“溢出”，主要应该是指递归时程序信息压栈所导致，相比于非递归的算法，其压栈数据量大得多。</p>
+<p>故而此处的算法实现直接采用栈实现。</p>
+<p>关于本题的另一种视角是：</p>
+<p>对于深度优先搜索，采用队列存储每层当前节点的兄弟节点与父节点，这样队列的消耗相较于上面的一种方法要大一些（如当前节点的兄弟节点，父节点及其兄弟节点，祖父节点及其兄弟节点...）。</p>
+<hr />
+<h4>4.8 非递归决策树生成算法 - BFS</h4>
+<blockquote>
+<p><img src="Ch4/4.8.png" /></p>
+</blockquote>
+<p>本题实际上是BFS与DFS的比较：</p>
+<ul>
+<li>对于深度优先搜索，每深入一层需要存储上一层节点的信息以方便回溯遍历（其存储的是<strong>一条路径</strong>）；</li>
+<li>对于广度优先搜索，每深入一层需要存储当前层兄弟节点信息以实现遍历（其存储的是<strong>每层信息</strong>，存储量会大一些但）；</li>
+</ul>
+<p>两种方法各自有防止队列过大化的<strong>阈值</strong>（即MaxDepth和MaxNode），所以两种方法均可将内存消耗控制在一定范围之内。</p>
+<p>当数据属性相对较多，属性不同取值相对较少时，树会比较宽，此时深度优先所需内存较小，反之宽度优先较小。</p>
+<hr />
+
+</body>
+</html>
+<!-- This document was created with MarkdownPad, the Markdown editor for Windows (http://markdownpad.com) -->

@@ -4,12 +4,18 @@ My answers (i.e. ideas, code) for the book "Machine Learning (机器学习)" wri
 
 ps. all the code exercises are implemented by **Python** in **eclipse-pydev** env. many of them are based on **sklearn**.
 
+for more info: welcome to my blog: [Snoopy_Yuan的博客](http://blog.csdn.net/snoopy_yuan) and [周志华《机器学习》课后习题解答系列](http://blog.csdn.net/snoopy_yuan/article/details/62045353)
+
+
 ### [Ch4.Decision Tree (决策树)](./ch4_decision_tree/) ###
 
 练习包括(exercises includ)：
 
+- 决策树划分选择准则；
 - 编程实现ID3算法（implementation of ID3）([here is the code](./ch4_decision_tree/4.3_ID3/))；
 - 编程实现CART算法与剪枝操作（implementation of CART and pruning）([here is the code](./ch4_decision_tree/4.4_CART/))；
+- 多变量决策树生成方式（multivariate decision tree）；
+- 非递归决策树生成方法（generation of decision - non-recursive approach using DFS/BFS）
 
 ### [Ch3.Linear Model (线性模型)](./ch3_linear_model/) ###
 
