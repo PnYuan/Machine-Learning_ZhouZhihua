@@ -5,15 +5,25 @@ My answers (i.e. ideas, code) for the book "Machine Learning (机器学习)" wri
 ps. all the code exercises are implemented by **Python** in **eclipse-pydev** env. many of them are based on **sklearn**.
 
 for more info: welcome to my blog: [Snoopy_Yuan的博客](http://blog.csdn.net/snoopy_yuan) and [周志华《机器学习》课后习题解答系列](http://blog.csdn.net/snoopy_yuan/article/details/62045353)
+http://www.baidu.com/link?url=1p2aYKVCb3Bb2DBxy0oX4zH-M4CAgyUwz02SWKVZ_HMcZhUR3blnt3h8Q-yLZtor5OUc-Z14d-kMJ11QPG5d7p53B5o1LUuJjsA0I7xiLS7
+### [Ch5.Neural Networks (神经网络)](./Ch5_neural_networks/) ###
 
+练习包括(exercises include)：
+
+- 激活函数选择考虑（selection of activation function）；
+- Sigmoid激活函数与对率回归的联系（the relationships between Sigmoid() and Logistic Regression）；
+- BP算法推导（conduction of BP algorithm）；
+- 学习率分析（analysis of learning rate in NN training）；
+- 标准BP算法和累积BP算法对比实验（comparative experiment of BP）([code here](./Ch5_neural_networks/5.5_BP/))；
+- BP算法改进（improvement of BP algorithm）([code here](./Ch5_neural_networks/5.6_BP_improve/))；
 
 ### [Ch4.Decision Tree (决策树)](./ch4_decision_tree/) ###
 
 练习包括(exercises include)：
 
 - 决策树划分选择准则；
-- 编程实现ID3算法（implementation of ID3）([here is the code](./ch4_decision_tree/4.3_ID3/))；
-- 编程实现CART算法与剪枝操作（implementation of CART and pruning）([here is the code](./ch4_decision_tree/4.4_CART/))；
+- 编程实现ID3算法（implementation of ID3）([code here](./ch4_decision_tree/4.3_ID3/))；
+- 编程实现CART算法与剪枝操作（implementation of CART and pruning）([code here](./ch4_decision_tree/4.4_CART/))；
 - 多变量决策树生成方式（multivariate decision tree）；
 - 非递归决策树生成方法（generation of decision - non-recursive approach using DFS/BFS）
 
@@ -23,9 +33,9 @@ for more info: welcome to my blog: [Snoopy_Yuan的博客](http://blog.csdn.net/s
 
 - 分析偏置项b（bias terms）；
 - 证明对数似然是凸函数（convex functions）；
-- 编程实现对率回归（implementation of logistic regression）([here is the code](./ch3_linear_model/3.3_logistic_regression_watermelon/))；
-- 实验比较k-fold_CV和LOOCV（analysis of cross-validation）([here is the code](./ch3_linear_model/3.4_cross_validation/))；
-- 编程实现线性判别分析（implementation of LDA）（[here is the code](./ch3_linear_model/3.5_LDA/)）；
+- 编程实现对率回归（implementation of logistic regression）([code here](./ch3_linear_model/3.3_logistic_regression_watermelon/))；
+- 实验比较k-fold_CV和LOOCV（analysis of cross-validation）([code here](./ch3_linear_model/3.4_cross_validation/))；
+- 编程实现线性判别分析（implementation of LDA）（[code here](./ch3_linear_model/3.5_LDA/)）；
 - 线性判别分析的非线性拓展（nonlinear stretching of LDA）；
 - 最优ECOC编码方式；
 - 多分类到二分类分解时类别不平衡的考虑（class-imbalance）。
