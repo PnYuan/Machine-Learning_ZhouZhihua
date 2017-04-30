@@ -16,6 +16,7 @@ for more info: welcome to my blog: [Snoopy_Yuan的博客](http://blog.csdn.net/s
 - 学习率分析（analysis of learning rate in NN training）；
 - 标准BP算法和累积BP算法对比实验（comparative experiment of BP）([code here](./ch5_neural_networks/5.5_BP/))；
 - BP算法改进（improvement of BP algorithm）([code here](./ch5_neural_networks/5.6_BP_improve/))；
+- RBF神经网络实现（implementation of RBF network）([code here](./ch5_neural_networks/5.7_RBF_BP/))；
 
 ### [Ch4.Decision Tree (决策树)](./ch4_decision_tree/) ###
 
