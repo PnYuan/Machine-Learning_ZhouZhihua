@@ -18,6 +18,7 @@ for more info: welcome to my blog: [Snoopy_Yuan的博客](http://blog.csdn.net/s
 - BP算法改进（improvement of BP algorithm）([code here](./ch5_neural_networks/5.6_BP_improve/))；
 - RBF神经网络实现（implementation of RBF network）([code here](./ch5_neural_networks/5.7_RBF_BP/))；
 - SOM神经网络实验（experiment of SOM network）([code here](./ch5_neural_networks/5.8_SOM/))；
+- 卷积神经网络实验 - 字符识别（experiment of CNN on MNIST）([code here](./ch5_neural_networks/5.10_CNN/))；
 
 ### [Ch4.Decision Tree (决策树)](./ch4_decision_tree/) ###
 
