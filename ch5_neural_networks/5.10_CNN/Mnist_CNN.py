@@ -2,6 +2,8 @@
 '''
 the source code in:
     http://deeplearning.net/tutorial/code/convolutional_mlp.py
+    
+PY131 makes some changes on it
 '''
 
 import os
