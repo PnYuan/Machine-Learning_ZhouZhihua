@@ -1,0 +1,407 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>周志华《机器学习》课后习题解答系列（六）：Ch5.8 - SOM网络实验</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<style type="text/css">
+/* GitHub stylesheet for MarkdownPad (http://markdownpad.com) */
+/* Author: Nicolas Hery - http://nicolashery.com */
+/* Version: b13fe65ca28d2e568c6ed5d7f06581183df8f2ff */
+/* Source: https://github.com/nicolahery/markdownpad-github */
+
+/* RESET
+=============================================================================*/
+
+html, body, div, span, applet, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, pre, a, abbr, acronym, address, big, cite, code, del, dfn, em, img, ins, kbd, q, s, samp, small, strike, strong, sub, sup, tt, var, b, u, i, center, dl, dt, dd, ol, ul, li, fieldset, form, label, legend, table, caption, tbody, tfoot, thead, tr, th, td, article, aside, canvas, details, embed, figure, figcaption, footer, header, hgroup, menu, nav, output, ruby, section, summary, time, mark, audio, video {
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+
+/* BODY
+=============================================================================*/
+
+body {
+  font-family: Helvetica, arial, freesans, clean, sans-serif;
+  font-size: 14px;
+  line-height: 1.6;
+  color: #333;
+  background-color: #fff;
+  padding: 20px;
+  max-width: 960px;
+  margin: 0 auto;
+}
+
+body>*:first-child {
+  margin-top: 0 !important;
+}
+
+body>*:last-child {
+  margin-bottom: 0 !important;
+}
+
+/* BLOCKS
+=============================================================================*/
+
+p, blockquote, ul, ol, dl, table, pre {
+  margin: 15px 0;
+}
+
+/* HEADERS
+=============================================================================*/
+
+h1, h2, h3, h4, h5, h6 {
+  margin: 20px 0 10px;
+  padding: 0;
+  font-weight: bold;
+  -webkit-font-smoothing: antialiased;
+}
+
+h1 tt, h1 code, h2 tt, h2 code, h3 tt, h3 code, h4 tt, h4 code, h5 tt, h5 code, h6 tt, h6 code {
+  font-size: inherit;
+}
+
+h1 {
+  font-size: 28px;
+  color: #000;
+}
+
+h2 {
+  font-size: 24px;
+  border-bottom: 1px solid #ccc;
+  color: #000;
+}
+
+h3 {
+  font-size: 18px;
+}
+
+h4 {
+  font-size: 16px;
+}
+
+h5 {
+  font-size: 14px;
+}
+
+h6 {
+  color: #777;
+  font-size: 14px;
+}
+
+body>h2:first-child, body>h1:first-child, body>h1:first-child+h2, body>h3:first-child, body>h4:first-child, body>h5:first-child, body>h6:first-child {
+  margin-top: 0;
+  padding-top: 0;
+}
+
+a:first-child h1, a:first-child h2, a:first-child h3, a:first-child h4, a:first-child h5, a:first-child h6 {
+  margin-top: 0;
+  padding-top: 0;
+}
+
+h1+p, h2+p, h3+p, h4+p, h5+p, h6+p {
+  margin-top: 10px;
+}
+
+/* LINKS
+=============================================================================*/
+
+a {
+  color: #4183C4;
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+/* LISTS
+=============================================================================*/
+
+ul, ol {
+  padding-left: 30px;
+}
+
+ul li > :first-child, 
+ol li > :first-child, 
+ul li ul:first-of-type, 
+ol li ol:first-of-type, 
+ul li ol:first-of-type, 
+ol li ul:first-of-type {
+  margin-top: 0px;
+}
+
+ul ul, ul ol, ol ol, ol ul {
+  margin-bottom: 0;
+}
+
+dl {
+  padding: 0;
+}
+
+dl dt {
+  font-size: 14px;
+  font-weight: bold;
+  font-style: italic;
+  padding: 0;
+  margin: 15px 0 5px;
+}
+
+dl dt:first-child {
+  padding: 0;
+}
+
+dl dt>:first-child {
+  margin-top: 0px;
+}
+
+dl dt>:last-child {
+  margin-bottom: 0px;
+}
+
+dl dd {
+  margin: 0 0 15px;
+  padding: 0 15px;
+}
+
+dl dd>:first-child {
+  margin-top: 0px;
+}
+
+dl dd>:last-child {
+  margin-bottom: 0px;
+}
+
+/* CODE
+=============================================================================*/
+
+pre, code, tt {
+  font-size: 12px;
+  font-family: Consolas, "Liberation Mono", Courier, monospace;
+}
+
+code, tt {
+  margin: 0 0px;
+  padding: 0px 0px;
+  white-space: nowrap;
+  border: 1px solid #eaeaea;
+  background-color: #f8f8f8;
+  border-radius: 3px;
+}
+
+pre>code {
+  margin: 0;
+  padding: 0;
+  white-space: pre;
+  border: none;
+  background: transparent;
+}
+
+pre {
+  background-color: #f8f8f8;
+  border: 1px solid #ccc;
+  font-size: 13px;
+  line-height: 19px;
+  overflow: auto;
+  padding: 6px 10px;
+  border-radius: 3px;
+}
+
+pre code, pre tt {
+  background-color: transparent;
+  border: none;
+}
+
+kbd {
+    -moz-border-bottom-colors: none;
+    -moz-border-left-colors: none;
+    -moz-border-right-colors: none;
+    -moz-border-top-colors: none;
+    background-color: #DDDDDD;
+    background-image: linear-gradient(#F1F1F1, #DDDDDD);
+    background-repeat: repeat-x;
+    border-color: #DDDDDD #CCCCCC #CCCCCC #DDDDDD;
+    border-image: none;
+    border-radius: 2px 2px 2px 2px;
+    border-style: solid;
+    border-width: 1px;
+    font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+    line-height: 10px;
+    padding: 1px 4px;
+}
+
+/* QUOTES
+=============================================================================*/
+
+blockquote {
+  border-left: 4px solid #DDD;
+  padding: 0 15px;
+  color: #777;
+}
+
+blockquote>:first-child {
+  margin-top: 0px;
+}
+
+blockquote>:last-child {
+  margin-bottom: 0px;
+}
+
+/* HORIZONTAL RULES
+=============================================================================*/
+
+hr {
+  clear: both;
+  margin: 15px 0;
+  height: 0px;
+  overflow: hidden;
+  border: none;
+  background: transparent;
+  border-bottom: 4px solid #ddd;
+  padding: 0;
+}
+
+/* TABLES
+=============================================================================*/
+
+table th {
+  font-weight: bold;
+}
+
+table th, table td {
+  border: 1px solid #ccc;
+  padding: 6px 13px;
+}
+
+table tr {
+  border-top: 1px solid #ccc;
+  background-color: #fff;
+}
+
+table tr:nth-child(2n) {
+  background-color: #f8f8f8;
+}
+
+/* IMAGES
+=============================================================================*/
+
+img {
+  max-width: 100%
+}
+</style>
+</head>
+<body>
+<p>本系列相关答案和源代码托管在我的Github上：<a href="https://github.com/PY131/Machine-Learning_ZhouZhihua">PY131/Machine-Learning_ZhouZhihua</a>.</p>
+<h1>SOM神经网络实验</h1>
+<blockquote>
+<p><img src="Ch5/5.8.png" /></p>
+</blockquote>
+<p>注：本题程序分别基于Python和Matlab实现（<a href="https://github.com/PY131/Machine-Learning_ZhouZhihua/tree/master/ch5_neural_networks/5.8_SOM">这里查看完整代码和数据集</a>）。</p>
+<h2>1 基础概述</h2>
+<h3>1.1 SOM网络概念</h3>
+<p>SOM(Self-Organizing Map，自组织映射)网络是一种<strong>无监督</strong>的<strong>竞争型<strong>神经网络，常用于数据的</strong>聚类和降维分析</strong>。它从仿生学中引出，模拟了面临不同输入模式时生物神经组织的兴奋机理。SOM神经网络最初由Kohonen提出，所以也常把SOM网络称为<strong>Kohonen网络</strong>。</p>
+<p>SOM神经网络通过自组织映射（SOM），将高维的输入数据映射到低维空间，从而实现了特征空间的降维，同时保持了输入数据在高维空间中的拓扑结构。下图为最常见的输出层为二维的SOM神经网络：</p>
+<p><img src="Ch5/5.8.1.png" /></p>
+<p>SOM网络经过训练之后，输出层各神经元及其参数反映的是输入数据的模式聚合。</p>
+<h3>1.2 SOM网络工作机理</h3>
+<p>SOM工作机理分为三大部分：</p>
+<ul>
+<li>竞争（Competition）</li>
+<li>协同（Cooperation）</li>
+<li>适应（Adaption）</li>
+</ul>
+<p>下面对工作机制进行概要讨论（这里以上图5.11所示输出层为二维的Kohonen网络为例）：</p>
+<p><strong>1. 参数</strong></p>
+<p>先明确网络所涉及的数据和参数（即要通过数据学习的对象）：</p>
+<pre><code>数据：
+    输入层：D 个输入变量记为 x = {x_i: i=1,…,D};
+    输出层：N*M 个输出变量记为 o = {o_jk: j=1,…,N;k=1,…,M};
+
+参数：
+    优胜邻域系数(j1k1和j2k2) T = {T_j1k1j2k2: j1,j2=1,…,N;k1,k2=1,…,M}，和距离远近有关;    
+    学习率 η，和迭代次数有关；
+    输出层第 jk 个神经元相对于输入层的权重参数 w_jk = {w_jki: j=1,…,N;k=1,...,M;i=1,…,D}，对应该神经元模式属性；   
+</code></pre>
+
+<p>下面将进一步解释这些参数及其使用。</p>
+<p><strong>2. 竞争机制（Competition）</strong></p>
+<p>我们需要一个<strong>判别函数</strong>来确定，在某条输入样本下，胜出的是输出层的那一个神经元，这里可采用<strong>欧氏距离</strong>来度量，通过计算输出层神经元 o_jk 和 输入之间的距离，越小的胜出。判别函数如下式，记胜出的神经元索引为 I(x)，可以看出这里起决定性作用的参数是权重 w：</p>
+<p><img src="Ch5/5.8.2.png" />	</p>
+<p><strong>3. 协同机制（Cooperation）</strong></p>
+<p>SOM网络根据<strong>优胜邻域</strong>进行权值调整（<strong>侧抑制(lateral inhibition)</strong>机制），即对于所有输出层神经元，越靠近胜出者权值调整幅度越大，我们可用下面的衰减函数来度量这样一种权值调整幅度：</p>
+<p><img src="Ch5/5.8.3.png" />	</p>
+<p>可以绘制出该函数示意如下图示（可以看出其取值规律符合侧抑制机理）：</p>
+<p><img src="Ch5/5.8.lateral_inhibition.png" /></p>
+<p><strong>4. 参数更新机制（Adaption）</strong></p>
+<p>参数更新针对权重 w，直接给出更新公式如下：</p>
+<p><img src="Ch5/5.8.4.png" /></p>
+<p>为优化收敛，防止振荡，可采用随迭代次数衰减的学习率，同理可调整上面侧抑制函数中的尺度系数 σ，一并给出其计算式样例如下:</p>
+<p><img src="Ch5/5.8.5.png" /></p>
+<h3>1.3 SOM网络训练算法</h3>
+<p>根据上面的记述，给出SOM网络训练算法概略如下：</p>
+<p><img src="Ch5/5.8.som_alg.png" /></p>
+<h2>2 简要实验</h2>
+<p>这里我们采用西瓜数据集3.0a作为分析对象，采用SOM神经网络来分析其输入变量的聚类情况，并与实际类别对比。</p>
+<h3>2.1 数据预处理</h3>
+<p>对象数据集（watermelon_3a）如下所示：</p>
+<p><img src="Ch5/5.8.data.png" /></p>
+<p>数据样本为二维连续输入和一维标称输出，绘制其可视化散点图如下所示：</p>
+<p><img src="Ch5/5.8.scatter.png" /></p>
+<p>从数据点的分布可以得到一些基本信息（如线性不可分，存在离群点，每类样本量平衡等）。</p>
+<p>由于算法中涉及到<strong>距离</strong>的计算，这里需要将数据集的每个属性进行<strong>归一化</strong>（正则化）（含糖率、密度）。</p>
+<p>采用Z-score的归一化的python程序样例如下：</p>
+<pre><code>```python
+# data normalization (z-scale) based on column
+X_train = np.zeros(X.shape)
+for j in range(X.shape[1]):
+    for i in range(X.shape[0]):
+        X_train[i,j] = (X[i,j] - X[:,j].mean())/X[:,j].std()
+X = X_train
+```
+</code></pre>
+
+<p>采用Max-min归一化的Matlab语句样例如下：</p>
+<pre><code>```matlab
+X = mapminmax(X, 0, 1);
+```
+</code></pre>
+
+<h3>2.2 模型训练</h3>
+<p>这里我们采用两种方式互补实现此处SOM网络的实验：</p>
+<ol>
+<li>基于<strong>python的pymvpa2机器学习包</strong>实现；</li>
+<li>基于<strong>Matlab的神经网络工具箱</strong>（Neural Network Toolbox）实现；</li>
+</ol>
+<p>下面主要讲述实现思路：</p>
+<ol>
+<li>为体现SOM的数据降维功能，搭建网络时设置其Kohonen层（竞争输出层）为一维，（注pymvpa2包不支持1维，可设置其竞争层size为 n*2 来近似研究）。</li>
+<li>执行参数训练的迭代过程，查看输出层（竞争层）的神经元类别所属情况：</li>
+</ol>
+<h3>2.3 结果分析</h3>
+<p>首先查看神经元权重参数（记忆参数） w 的变化结果（神经元记忆中心运动情况）：</p>
+<p><img src="Ch5/5.8.weights_position.jpg" /></p>
+<p>在Matlab-神经网络工具箱上实现SOM网络并训练得到竞争层（size = 10*1）的神经元映射结果图：</p>
+<p><img src="Ch5/5.8.sample_hits.jpg" /></p>
+<p>可以看出此时SOM网络竞争层以大致从输入中提取出1，2两类（且对应神经元数量相当），这与样本真实情况相符，但是由于样本中离群点的存在，导致出现了异类（3）。</p>
+<p>进一步，若不考虑降维，采样pymvpa2包搭建一个2维Kohonen层（竞争层），经过多次训练后得出下面的权重着色图：</p>
+<p><img src="Ch5/5.8.weight.jpg" /></p>
+<p>可以看到，权重值存在渐变，说明存在类簇的作用。</p>
+<h2>3. 总结</h2>
+<p>这里对SOM网络进行初步的学习探索，可以看到它在<strong>数据降维</strong>，<strong>聚类分析</strong>上的优势。</p>
+<p>进一步可知，SOM网络的聚类<strong>无需事先指定类别数量</strong>，是一种完全自主的实现（这点不同于K-means等聚类方法）。</p>
+<p>经过训练的SOM网络可以进一步实现<strong>分类预测</strong>等更多功能。</p>
+<h2>4. 参考</h2>
+<p>(注：sompy是本文实现过程中可用到的一个python软件包，未在文中提出)</p>
+<ul>
+<li>SOM神经网络基础知识： <a href="http://www.cs.bham.ac.uk/~jxb/NN/l16.pdf">伯明翰大学课件：Self Organizing Maps: Fundamentals</a></li>
+<li>Python辅助-pymvpa： <a href="http://www.pymvpa.org/index.html">官方</a></li>
+<li>Python辅助-pymvpa： <a href="http://www.pymvpa.org/examples/som.html">Self-organizing Maps样例</a></li>
+<li>Python辅助-sompy： <a href="https://github.com/sevamoo/SOMPY">SOM软件包：sompy_GitHub</a></li>
+<li>Python辅助-sompy： <a href="http://blog.csdn.net/u013554860/article/details/53984133">sompy使用_CSDN博客</a></li>
+<li>Python辅助-sompy： <a href="http://nbviewer.jupyter.org/gist/sevamoo/f1afe78af3cf6b8c4b67">sompy使用_官方examples</a></li>
+<li>Matlab辅助-神经网络工具箱： <a href="http://blog.sina.com.cn/s/blog_7671b3eb0100y4kl.html">SOM自组织特征映射神经网络</a></li>
+</ul>
+
+</body>
+</html>
+<!-- This document was created with MarkdownPad, the Markdown editor for Windows (http://markdownpad.com) -->

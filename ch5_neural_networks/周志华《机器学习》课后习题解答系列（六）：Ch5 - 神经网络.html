@@ -1,0 +1,461 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>周志华《机器学习》课后习题解答系列（六）：Ch5 - 神经网络</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<style type="text/css">
+/* GitHub stylesheet for MarkdownPad (http://markdownpad.com) */
+/* Author: Nicolas Hery - http://nicolashery.com */
+/* Version: b13fe65ca28d2e568c6ed5d7f06581183df8f2ff */
+/* Source: https://github.com/nicolahery/markdownpad-github */
+
+/* RESET
+=============================================================================*/
+
+html, body, div, span, applet, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, pre, a, abbr, acronym, address, big, cite, code, del, dfn, em, img, ins, kbd, q, s, samp, small, strike, strong, sub, sup, tt, var, b, u, i, center, dl, dt, dd, ol, ul, li, fieldset, form, label, legend, table, caption, tbody, tfoot, thead, tr, th, td, article, aside, canvas, details, embed, figure, figcaption, footer, header, hgroup, menu, nav, output, ruby, section, summary, time, mark, audio, video {
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+
+/* BODY
+=============================================================================*/
+
+body {
+  font-family: Helvetica, arial, freesans, clean, sans-serif;
+  font-size: 14px;
+  line-height: 1.6;
+  color: #333;
+  background-color: #fff;
+  padding: 20px;
+  max-width: 960px;
+  margin: 0 auto;
+}
+
+body>*:first-child {
+  margin-top: 0 !important;
+}
+
+body>*:last-child {
+  margin-bottom: 0 !important;
+}
+
+/* BLOCKS
+=============================================================================*/
+
+p, blockquote, ul, ol, dl, table, pre {
+  margin: 15px 0;
+}
+
+/* HEADERS
+=============================================================================*/
+
+h1, h2, h3, h4, h5, h6 {
+  margin: 20px 0 10px;
+  padding: 0;
+  font-weight: bold;
+  -webkit-font-smoothing: antialiased;
+}
+
+h1 tt, h1 code, h2 tt, h2 code, h3 tt, h3 code, h4 tt, h4 code, h5 tt, h5 code, h6 tt, h6 code {
+  font-size: inherit;
+}
+
+h1 {
+  font-size: 28px;
+  color: #000;
+}
+
+h2 {
+  font-size: 24px;
+  border-bottom: 1px solid #ccc;
+  color: #000;
+}
+
+h3 {
+  font-size: 18px;
+}
+
+h4 {
+  font-size: 16px;
+}
+
+h5 {
+  font-size: 14px;
+}
+
+h6 {
+  color: #777;
+  font-size: 14px;
+}
+
+body>h2:first-child, body>h1:first-child, body>h1:first-child+h2, body>h3:first-child, body>h4:first-child, body>h5:first-child, body>h6:first-child {
+  margin-top: 0;
+  padding-top: 0;
+}
+
+a:first-child h1, a:first-child h2, a:first-child h3, a:first-child h4, a:first-child h5, a:first-child h6 {
+  margin-top: 0;
+  padding-top: 0;
+}
+
+h1+p, h2+p, h3+p, h4+p, h5+p, h6+p {
+  margin-top: 10px;
+}
+
+/* LINKS
+=============================================================================*/
+
+a {
+  color: #4183C4;
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+/* LISTS
+=============================================================================*/
+
+ul, ol {
+  padding-left: 30px;
+}
+
+ul li > :first-child, 
+ol li > :first-child, 
+ul li ul:first-of-type, 
+ol li ol:first-of-type, 
+ul li ol:first-of-type, 
+ol li ul:first-of-type {
+  margin-top: 0px;
+}
+
+ul ul, ul ol, ol ol, ol ul {
+  margin-bottom: 0;
+}
+
+dl {
+  padding: 0;
+}
+
+dl dt {
+  font-size: 14px;
+  font-weight: bold;
+  font-style: italic;
+  padding: 0;
+  margin: 15px 0 5px;
+}
+
+dl dt:first-child {
+  padding: 0;
+}
+
+dl dt>:first-child {
+  margin-top: 0px;
+}
+
+dl dt>:last-child {
+  margin-bottom: 0px;
+}
+
+dl dd {
+  margin: 0 0 15px;
+  padding: 0 15px;
+}
+
+dl dd>:first-child {
+  margin-top: 0px;
+}
+
+dl dd>:last-child {
+  margin-bottom: 0px;
+}
+
+/* CODE
+=============================================================================*/
+
+pre, code, tt {
+  font-size: 12px;
+  font-family: Consolas, "Liberation Mono", Courier, monospace;
+}
+
+code, tt {
+  margin: 0 0px;
+  padding: 0px 0px;
+  white-space: nowrap;
+  border: 1px solid #eaeaea;
+  background-color: #f8f8f8;
+  border-radius: 3px;
+}
+
+pre>code {
+  margin: 0;
+  padding: 0;
+  white-space: pre;
+  border: none;
+  background: transparent;
+}
+
+pre {
+  background-color: #f8f8f8;
+  border: 1px solid #ccc;
+  font-size: 13px;
+  line-height: 19px;
+  overflow: auto;
+  padding: 6px 10px;
+  border-radius: 3px;
+}
+
+pre code, pre tt {
+  background-color: transparent;
+  border: none;
+}
+
+kbd {
+    -moz-border-bottom-colors: none;
+    -moz-border-left-colors: none;
+    -moz-border-right-colors: none;
+    -moz-border-top-colors: none;
+    background-color: #DDDDDD;
+    background-image: linear-gradient(#F1F1F1, #DDDDDD);
+    background-repeat: repeat-x;
+    border-color: #DDDDDD #CCCCCC #CCCCCC #DDDDDD;
+    border-image: none;
+    border-radius: 2px 2px 2px 2px;
+    border-style: solid;
+    border-width: 1px;
+    font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+    line-height: 10px;
+    padding: 1px 4px;
+}
+
+/* QUOTES
+=============================================================================*/
+
+blockquote {
+  border-left: 4px solid #DDD;
+  padding: 0 15px;
+  color: #777;
+}
+
+blockquote>:first-child {
+  margin-top: 0px;
+}
+
+blockquote>:last-child {
+  margin-bottom: 0px;
+}
+
+/* HORIZONTAL RULES
+=============================================================================*/
+
+hr {
+  clear: both;
+  margin: 15px 0;
+  height: 0px;
+  overflow: hidden;
+  border: none;
+  background: transparent;
+  border-bottom: 4px solid #ddd;
+  padding: 0;
+}
+
+/* TABLES
+=============================================================================*/
+
+table th {
+  font-weight: bold;
+}
+
+table th, table td {
+  border: 1px solid #ccc;
+  padding: 6px 13px;
+}
+
+table tr {
+  border-top: 1px solid #ccc;
+  background-color: #fff;
+}
+
+table tr:nth-child(2n) {
+  background-color: #f8f8f8;
+}
+
+/* IMAGES
+=============================================================================*/
+
+img {
+  max-width: 100%
+}
+</style>
+</head>
+<body>
+<p>本章所涉及的编程练习采用<strong>Python</strong>实现，查看相关答案和源代码，欢迎访问我的Github：<a href="https://github.com/PY131/Machine-Learning_ZhouZhihua">PY131/Machine-Learning_ZhouZhihua</a>.</p>
+<h2>本章概要</h2>
+<p>本章讲述<strong>人工神经网络</strong>（Artificial Neural Network，ANN），相关内容包括：</p>
+<ul>
+<li>神经元模型（neuron）</li>
+</ul>
+<blockquote>
+<p>M-P神经元模型，带权的连接，阈值（threshold），激活函数（activation function），Sigmoid函数；</p>
+</blockquote>
+<ul>
+<li>感知机（Perceptron）与多层网络（multi-layer networks）</li>
+</ul>
+<blockquote>
+<p>感知机网络，线性可分，隐含层（hidden layer），单隐层网络，多层前馈神经网络（multi-layer feedforward neural networks）；</p>
+</blockquote>
+<ul>
+<li>误差逆传播算法（BP algorithms）</li>
+</ul>
+<blockquote>
+<p>BP算法，BP网络，梯度下降法，学习率，标准BP算法，累积BP算法，隐层神经元个数调整-试错法（trial-by-error），过拟合问题，早停（early-stopping），正则化（regularization）；</p>
+</blockquote>
+<ul>
+<li>全局最小与局部最小</li>
+</ul>
+<blockquote>
+<p>全局最小（global minimum），局部最小（local minimum），多初始化，模拟退火（simulated annealing），随机梯度下降；</p>
+</blockquote>
+<ul>
+<li>其他常见神经网络模型</li>
+</ul>
+<blockquote>
+<p>RBF网络，径向基函数（RBF），高斯径向基函数；</p>
+<p>ART网络，竞争性学习（competitive learning），比较层，识别层，模式类，识别阈值，可塑性-稳定性窘境，增量学习；</p>
+<p>SOM网络，高维到低维映射，最佳匹配单元，距离；</p>
+<p>级联相关网络（cascade-correlation），结构自适应，相关性；</p>
+<p>Elman网络，递归神经网络，状态反馈，推广BP算法；</p>
+<p>Boltzmann机，基于能量（energy）的模型，能量最小化，布尔型神经元，受限Boltzmann机（RBM），对比散度（contrastive divergence）；</p>
+</blockquote>
+<ul>
+<li>深度学习简介</li>
+</ul>
+<blockquote>
+<p>多隐层，无监督逐层训练（unsupervised layer-wise training），预训练-微调，深度信念网络（DBN），权共享（weight sharing），卷积神经网络（CNN），特征学习（feature learning），特征工程（feature engineering）；</p>
+</blockquote>
+<h2>神经网络的优劣总结</h2>
+<p>人工神经网络的好处很多，这里不做赘述，下面列出一些在使用神经网络方法时，需要注意的问题：</p>
+<ul>
+<li>
+<p>算法收敛速度问题</p>
+</li>
+<li>
+<p>过拟合风险</p>
+</li>
+<li>
+<p>局部最优风险</p>
+</li>
+<li>
+<p>网络结构选择问题</p>
+</li>
+<li>
+<p>样本依赖问题</p>
+</li>
+<li>
+<p>黑盒模型缺陷</p>
+</li>
+</ul>
+<h2>课后练习</h2>
+<h4>5.1 神经元激活函数选择考虑</h4>
+<blockquote>
+<p><img src="Ch5/5.1.png" /></p>
+</blockquote>
+<p>激活函数的选取是很灵活的，不同层可选择不同的激活函数，但一般都会要求满足非线性。若为线性（即形如题中 f(x)=wx ），根据多项式组合法则，<strong>多层网络退化成等价的单层网络</strong>，此时模型成为线性模型，无法解决非线性问题，如线性不可分的分类问题。</p>
+<p>进一步，激活函数一般会追求以下性质：</p>
+<ul>
+<li>非线性，内在反映的是模型的非线性；</li>
+<li>可微性，以支持梯度下降法等基于微分的优化方法；</li>
+<li>单调性，以保证单层网络是凸约束，从而存在最优；</li>
+<li>输出值范围受限，当输出有限时，寻优算法（如梯度下降）变得更加稳定；</li>
+<li>导数可由原函数计算出，以便重复利用；</li>
+<li>...</li>
+</ul>
+<p>最常用的激活函数有：Sigmoid（对数几率函数），Tanh（双曲正切函数），ReLUs（修正线性函数），RBF（径向基函数），softmax（归一化指数函数）...</p>
+<hr />
+<h4>5.2 Sigmoid激活函数与对率回归的联系</h4>
+<blockquote>
+<p><img src="Ch5/5.2.png" /></p>
+</blockquote>
+<p>图5.2(b)采用Sigmoid函数作为激活函数，相当于将每个节点视为<strong>对率回归分类器</strong>，其系数为输入连接的权值ω（包括阈值对应的哑变量-1系数θ）；</p>
+<hr />
+<h4>5.3 BP算法推导</h4>
+<blockquote>
+<p><img src="Ch5/5.3.png" /></p>
+</blockquote>
+<p>图如下所示：</p>
+<blockquote>
+<p><img src="Ch5/5.3.1.png" /></p>
+</blockquote>
+<p>参数 vih 的更新公式为（书公式5.5）：</p>
+<blockquote>
+<p><img src="Ch5/5.3.2.png" /></p>
+</blockquote>
+<p>其中 Δvih 如下（书上公式5.13）：</p>
+<blockquote>
+<p><img src="Ch5/5.3.3.png" /></p>
+</blockquote>
+<p>给出具体的推导过程如下：</p>
+<blockquote>
+<p><img src="Ch5/5.3.4.png" /></p>
+</blockquote>
+<hr />
+<h4>5.4 学习率取值分析</h4>
+<blockquote>
+<p><img src="Ch5/5.4.png" />
+<img src="Ch5/5.4.1.png" /></p>
+</blockquote>
+<p>学习率 η 控制着梯度下降法的搜索步长（相关内容可参考书p408-附录B.4的梯度下降法的内容）：</p>
+<p>对于固定的 η，参考书p109页： η 过大，收敛过程易振荡， η 过小，收敛速度过慢。</p>
+<p>常把学习率 η 设置为随迭代次数变化的量，使其随着训练的要求变化而变化（一般是减小）。如刚开始 η 大以快速到达到目标值附近， 后期 η 小以保证收敛稳定。</p>
+<hr />
+<h4>5.5 BP算法实验</h4>
+<blockquote>
+<p><img src="Ch5/5.5.png" /></p>
+</blockquote>
+<p>参考书p105，标准BP算法和累积BP算法的最大区别在于<strong>梯度下降法的实现</strong>，前者采用<strong>随机梯度下降法<strong>原理，后者采用</strong>标准梯度下降法</strong>，相关可参考题3.3对率回归中的两种梯度下降法的实现。</p>
+<p>编程采用python-pybrain实现。本题的详细过程见：</p>
+<p><a href="http://blog.csdn.net/snoopy_yuan/article/details/70230862">周志华《机器学习》课后习题解答系列（六）：Ch5.5 - BP算法实现</a></p>
+<hr />
+<h4>5.6 BP算法改进</h4>
+<blockquote>
+<p><img src="Ch5/5.6.png" /></p>
+</blockquote>
+<p>这里采用“<strong>添加动量项+自适应学习率</strong>”机制来加快BP算法收敛。详细过程见：</p>
+<p><a href="http://blog.csdn.net/snoopy_yuan/article/details/70846554">周志华《机器学习》课后习题解答系列（六）：Ch5.6 - BP算法改进</a></p>
+<hr />
+<h4>5.7 RBF神经网络实验</h4>
+<blockquote>
+<p><img src="Ch5/5.7.png" /></p>
+</blockquote>
+<p>详细过程见：</p>
+<p><a href="http://blog.csdn.net/snoopy_yuan/article/details/71024046">周志华《机器学习》课后习题解答系列（六）：Ch5.7 - RBF网络实验</a></p>
+<hr />
+<h4>5.8 SOM神经网络实验</h4>
+<blockquote>
+<p><img src="Ch5/5.8.png" /></p>
+</blockquote>
+<p>详细过程见：</p>
+<p><a href="http://blog.csdn.net/snoopy_yuan/article/details/71093910">周志华《机器学习》课后习题解答系列（六）：Ch5.8 - SOM网络实验</a></p>
+<hr />
+<h4>5.9 Elman网络的BP算法推导</h4>
+<blockquote>
+<p><img src="Ch5/5.9.png" /></p>
+</blockquote>
+<p>这里简单说说思路：</p>
+<p>Elman神经网络是一种<strong>递归神经网络</strong>（RNN），它将上一次隐层输出和当前输入一起作为隐层输入（<strong>反馈<strong>feedback），从而实现网络的“</strong>记忆</strong>”功能。</p>
+<p>Elman训练算法以MLP-BP算法为基础，但是在计算隐层梯度时，要考虑由于反馈而产生的时序项，所以在训练算法中存在累加项。更多内容可以参考<a href="http://www.wildml.com/2015/10/recurrent-neural-networks-tutorial-part-3-backpropagation-through-time-and-vanishing-gradients/">RECURRENT NEURAL NETWORKS TUTORIAL</a>。</p>
+<p>递归神经网络正广泛应用于自然语言处理（NLP）等新兴领域。</p>
+<hr />
+<h4>5.10 卷积神经网络实验</h4>
+<blockquote>
+<p><img src="Ch5/5.10.png" /></p>
+</blockquote>
+<p>本章最后一题，详细过程见：</p>
+<p><a href="http://blog.csdn.net/snoopy_yuan/article/details/71703019">周志华《机器学习》课后习题解答系列（六）：Ch5.10 - 卷积神经网络实验</a></p>
+<hr />
+
+</body>
+</html>
+<!-- This document was created with MarkdownPad, the Markdown editor for Windows (http://markdownpad.com) -->
