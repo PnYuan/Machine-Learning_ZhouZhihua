@@ -6,6 +6,9 @@ ps. all the code exercises are implemented by **Python** in **eclipse-pydev** en
 
 for more info: welcome to my blog: [Snoopy_Yuan的博客](http://blog.csdn.net/snoopy_yuan) and [周志华《机器学习》课后习题解答系列](http://blog.csdn.net/snoopy_yuan/article/details/62045353)
 
+(更新中...2017-5-13)
+----
+
 ### [Ch5.Neural Networks (神经网络)](./ch5_neural_networks/) ###
 
 练习包括(exercises include)：
