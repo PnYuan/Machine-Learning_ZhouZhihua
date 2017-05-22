@@ -45,24 +45,26 @@ implementation of SOM net based on <pymvpa2>
 # from mvpa2.suite import *
 from mvpa2.suite import SimpleSOMMapper
 
-som = SimpleSOMMapper((20, 1), 100, learning_rate=0.05)      
-som.train(X_train)
+som = SimpleSOMMapper((10, 1), 10000, learning_rate=0.05)      
+som.train(X)
 
-print(np.asarray(som.K).ndim) 
-print(np.asarray(som.K).shape[2])
+mapped = som(X)
 
-b = np.zeros([som.K.shape[0], som.K.shape[1], som.K.shape[2]+1])
-for i in range(som.K.shape[0]):
-    for j in range(som.K.shape[1]):
-        b[i,j,0:som.K.shape[2]] = som.K[i,j,:]
-        
+# print(np.asarray(mapped).ndim) 
+# print(np.asarray(mapped).shape[2]) # to check if is suited for imshow()
+
+# b = np.zeros([som.K.shape[0], som.K.shape[1], som.K.shape[2]+1])
+# for i in range(som.K.shape[0]):
+#     for j in range(som.K.shape[1]):
+#         b[i,j,0:som.K.shape[2]] = som.K[i,j,:]
+
 f2 = plt.figure(2) 
-plt.imshow(som.K.squeeze(), origin='lower', cmap = 'gray')
+plt.imshow(~mapped, origin='lower', cmap = 'gray')
 mapped = som(X)
 
 plt.title('watermelon_3a')
-for i, m in enumerate(mapped):
-    plt.text(m[1], m[0], y[i], ha='center', va='center',
-           bbox=dict(facecolor='white', alpha=0.5, lw=0))
+# for i, m in enumerate(mapped):
+#     plt.text(m[0], m[1], y[i], ha='center', va='center',
+#            bbox=dict(facecolor='white', alpha=0., lw=0))
 plt.show()
 
