@@ -45,26 +45,26 @@ implementation of SOM net based on <pymvpa2>
 # from mvpa2.suite import *
 from mvpa2.suite import SimpleSOMMapper
 
-som = SimpleSOMMapper((10, 1), 10000, learning_rate=0.05)      
+som = SimpleSOMMapper((10, 1), 1000, learning_rate=0.05)      
 som.train(X)
 
+# print(som.K)  # see the center value of Kohonen layer node
+centers = som.K.reshape([10,2])
+f2 = plt.figure()  
+plt.scatter(centers[:,0], centers[:,1], s=1000)
+plt.title('Kohonen layer unit center')  
+
+# the result of mapping on watermelon_dataset
+mapped = som(X) # mapping result of X via SOM
+f3 = plt.figure(3) 
+mapped = mapped[:,0].reshape([1, len(mapped[:,0])])
+plt.imshow(mapped, origin='lower', cmap = 'gray')
+
 mapped = som(X)
 
-# print(np.asarray(mapped).ndim) 
-# print(np.asarray(mapped).shape[2]) # to check if is suited for imshow()
-
-# b = np.zeros([som.K.shape[0], som.K.shape[1], som.K.shape[2]+1])
-# for i in range(som.K.shape[0]):
-#     for j in range(som.K.shape[1]):
-#         b[i,j,0:som.K.shape[2]] = som.K[i,j,:]
-
-f2 = plt.figure(2) 
-plt.imshow(~mapped, origin='lower', cmap = 'gray')
-mapped = som(X)
-
-plt.title('watermelon_3a')
-# for i, m in enumerate(mapped):
-#     plt.text(m[0], m[1], y[i], ha='center', va='center',
-#            bbox=dict(facecolor='white', alpha=0., lw=0))
+plt.title('watermelon_3a mapping graph')
+for i, m in enumerate(mapped):
+    plt.text(i, 0, y[i], ha='center', va='center',
+           bbox=dict(facecolor='white', alpha=0.3, lw=0))
 plt.show()
 
