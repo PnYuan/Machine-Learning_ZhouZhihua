@@ -6,8 +6,15 @@ ps. all the code exercises are implemented by **Python** in **eclipse-pydev** en
 
 for more info: welcome to my blog: [Snoopy_Yuan的博客](http://blog.csdn.net/snoopy_yuan) and [周志华《机器学习》课后习题解答系列](http://blog.csdn.net/snoopy_yuan/article/details/62045353)
 
-(更新中...2017-5-13)
+(更新中...2017-7-5)
 ----
+
+### [Ch6.Support Vector Machine (支持向量机)](./ch6_support_vector_machine/) ###
+
+练习包括(exercises include)：
+
+- 支持向量（support vector）的差别比较；
+
 
 ### [Ch5.Neural Networks (神经网络)](./ch5_neural_networks/) ###
 
