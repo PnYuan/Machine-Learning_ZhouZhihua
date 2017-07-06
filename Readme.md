@@ -2,7 +2,7 @@
 -----
 My answers (i.e. ideas, code) for the book "Machine Learning (机器学习)" written by Prof. Zhou Zhihua.
 
-ps. all the code exercises are implemented by **Python** in **eclipse-pydev** env. many of them are based on **sklearn**.
+ps. all the code exercises are implemented by **Python** in **eclipse-pydev** env.
 
 for more info: welcome to my blog: [Snoopy_Yuan的博客](http://blog.csdn.net/snoopy_yuan) and [周志华《机器学习》课后习题解答系列](http://blog.csdn.net/snoopy_yuan/article/details/62045353)
 
@@ -13,8 +13,8 @@ for more info: welcome to my blog: [Snoopy_Yuan的博客](http://blog.csdn.net/s
 
 练习包括(exercises include)：
 
-- 支持向量（support vector）的差别比较；
-
+- 支持向量分析实验([code here](./ch6_support_vector_machine/6.2_SVM_test/))；
+- 支持向量机与BP网络/C4.5决策树对比实验（experiment of SVM/BP/C4.5）([code here](./ch6_support_vector_machine/6.3_SVM_compare/))；
 
 ### [Ch5.Neural Networks (神经网络)](./ch5_neural_networks/) ###
 
