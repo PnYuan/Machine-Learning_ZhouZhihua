@@ -6,7 +6,7 @@ ps. all the code exercises are implemented by **Python** in **eclipse-pydev** en
 
 for more info: welcome to my blog: [Snoopy_Yuan的博客](http://blog.csdn.net/snoopy_yuan) and [周志华《机器学习》课后习题解答系列](http://blog.csdn.net/snoopy_yuan/article/details/62045353)
 
-(更新中...2017-7-5)
+(更新中...2017-7-25)
 ----
 
 ### [Ch6.Support Vector Machine (支持向量机)](./ch6_support_vector_machine/) ###
@@ -15,6 +15,11 @@ for more info: welcome to my blog: [Snoopy_Yuan的博客](http://blog.csdn.net/s
 
 - 支持向量分析实验([code here](./ch6_support_vector_machine/6.2_SVM_test/))；
 - 支持向量机与BP网络/C4.5决策树对比实验（experiment of SVM/BP/C4.5）([code here](./ch6_support_vector_machine/6.3_SVM_compare/))；
+- 线性核SVM与LDA的关系（comparison of linear kernel SVM and LDA）；
+- 高斯核SVM与RBF网络的关系（comparison of RBF kernel SVM and RBF net）；
+- SVM对噪声敏感的原因（reason of noise-sensitive）；
+- SVR实验（experiment of SVR）([code here](./ch6_support_vector_machine/6.8_SVR_test/))；
+- 核对率回归设计（about kernel logistic regression - KLR）；
 
 ### [Ch5.Neural Networks (神经网络)](./ch5_neural_networks/) ###
 

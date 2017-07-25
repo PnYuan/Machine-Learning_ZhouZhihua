@@ -1,0 +1,414 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>周志华《机器学习》课后习题解答系列（七）：Ch6 - 支持向量机</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<style type="text/css">
+/* GitHub stylesheet for MarkdownPad (http://markdownpad.com) */
+/* Author: Nicolas Hery - http://nicolashery.com */
+/* Version: b13fe65ca28d2e568c6ed5d7f06581183df8f2ff */
+/* Source: https://github.com/nicolahery/markdownpad-github */
+
+/* RESET
+=============================================================================*/
+
+html, body, div, span, applet, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, pre, a, abbr, acronym, address, big, cite, code, del, dfn, em, img, ins, kbd, q, s, samp, small, strike, strong, sub, sup, tt, var, b, u, i, center, dl, dt, dd, ol, ul, li, fieldset, form, label, legend, table, caption, tbody, tfoot, thead, tr, th, td, article, aside, canvas, details, embed, figure, figcaption, footer, header, hgroup, menu, nav, output, ruby, section, summary, time, mark, audio, video {
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+
+/* BODY
+=============================================================================*/
+
+body {
+  font-family: Helvetica, arial, freesans, clean, sans-serif;
+  font-size: 14px;
+  line-height: 1.6;
+  color: #333;
+  background-color: #fff;
+  padding: 20px;
+  max-width: 960px;
+  margin: 0 auto;
+}
+
+body>*:first-child {
+  margin-top: 0 !important;
+}
+
+body>*:last-child {
+  margin-bottom: 0 !important;
+}
+
+/* BLOCKS
+=============================================================================*/
+
+p, blockquote, ul, ol, dl, table, pre {
+  margin: 15px 0;
+}
+
+/* HEADERS
+=============================================================================*/
+
+h1, h2, h3, h4, h5, h6 {
+  margin: 20px 0 10px;
+  padding: 0;
+  font-weight: bold;
+  -webkit-font-smoothing: antialiased;
+}
+
+h1 tt, h1 code, h2 tt, h2 code, h3 tt, h3 code, h4 tt, h4 code, h5 tt, h5 code, h6 tt, h6 code {
+  font-size: inherit;
+}
+
+h1 {
+  font-size: 28px;
+  color: #000;
+}
+
+h2 {
+  font-size: 24px;
+  border-bottom: 1px solid #ccc;
+  color: #000;
+}
+
+h3 {
+  font-size: 18px;
+}
+
+h4 {
+  font-size: 16px;
+}
+
+h5 {
+  font-size: 14px;
+}
+
+h6 {
+  color: #777;
+  font-size: 14px;
+}
+
+body>h2:first-child, body>h1:first-child, body>h1:first-child+h2, body>h3:first-child, body>h4:first-child, body>h5:first-child, body>h6:first-child {
+  margin-top: 0;
+  padding-top: 0;
+}
+
+a:first-child h1, a:first-child h2, a:first-child h3, a:first-child h4, a:first-child h5, a:first-child h6 {
+  margin-top: 0;
+  padding-top: 0;
+}
+
+h1+p, h2+p, h3+p, h4+p, h5+p, h6+p {
+  margin-top: 10px;
+}
+
+/* LINKS
+=============================================================================*/
+
+a {
+  color: #4183C4;
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+/* LISTS
+=============================================================================*/
+
+ul, ol {
+  padding-left: 30px;
+}
+
+ul li > :first-child, 
+ol li > :first-child, 
+ul li ul:first-of-type, 
+ol li ol:first-of-type, 
+ul li ol:first-of-type, 
+ol li ul:first-of-type {
+  margin-top: 0px;
+}
+
+ul ul, ul ol, ol ol, ol ul {
+  margin-bottom: 0;
+}
+
+dl {
+  padding: 0;
+}
+
+dl dt {
+  font-size: 14px;
+  font-weight: bold;
+  font-style: italic;
+  padding: 0;
+  margin: 15px 0 5px;
+}
+
+dl dt:first-child {
+  padding: 0;
+}
+
+dl dt>:first-child {
+  margin-top: 0px;
+}
+
+dl dt>:last-child {
+  margin-bottom: 0px;
+}
+
+dl dd {
+  margin: 0 0 15px;
+  padding: 0 15px;
+}
+
+dl dd>:first-child {
+  margin-top: 0px;
+}
+
+dl dd>:last-child {
+  margin-bottom: 0px;
+}
+
+/* CODE
+=============================================================================*/
+
+pre, code, tt {
+  font-size: 12px;
+  font-family: Consolas, "Liberation Mono", Courier, monospace;
+}
+
+code, tt {
+  margin: 0 0px;
+  padding: 0px 0px;
+  white-space: nowrap;
+  border: 1px solid #eaeaea;
+  background-color: #f8f8f8;
+  border-radius: 3px;
+}
+
+pre>code {
+  margin: 0;
+  padding: 0;
+  white-space: pre;
+  border: none;
+  background: transparent;
+}
+
+pre {
+  background-color: #f8f8f8;
+  border: 1px solid #ccc;
+  font-size: 13px;
+  line-height: 19px;
+  overflow: auto;
+  padding: 6px 10px;
+  border-radius: 3px;
+}
+
+pre code, pre tt {
+  background-color: transparent;
+  border: none;
+}
+
+kbd {
+    -moz-border-bottom-colors: none;
+    -moz-border-left-colors: none;
+    -moz-border-right-colors: none;
+    -moz-border-top-colors: none;
+    background-color: #DDDDDD;
+    background-image: linear-gradient(#F1F1F1, #DDDDDD);
+    background-repeat: repeat-x;
+    border-color: #DDDDDD #CCCCCC #CCCCCC #DDDDDD;
+    border-image: none;
+    border-radius: 2px 2px 2px 2px;
+    border-style: solid;
+    border-width: 1px;
+    font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+    line-height: 10px;
+    padding: 1px 4px;
+}
+
+/* QUOTES
+=============================================================================*/
+
+blockquote {
+  border-left: 4px solid #DDD;
+  padding: 0 15px;
+  color: #777;
+}
+
+blockquote>:first-child {
+  margin-top: 0px;
+}
+
+blockquote>:last-child {
+  margin-bottom: 0px;
+}
+
+/* HORIZONTAL RULES
+=============================================================================*/
+
+hr {
+  clear: both;
+  margin: 15px 0;
+  height: 0px;
+  overflow: hidden;
+  border: none;
+  background: transparent;
+  border-bottom: 4px solid #ddd;
+  padding: 0;
+}
+
+/* TABLES
+=============================================================================*/
+
+table th {
+  font-weight: bold;
+}
+
+table th, table td {
+  border: 1px solid #ccc;
+  padding: 6px 13px;
+}
+
+table tr {
+  border-top: 1px solid #ccc;
+  background-color: #fff;
+}
+
+table tr:nth-child(2n) {
+  background-color: #f8f8f8;
+}
+
+/* IMAGES
+=============================================================================*/
+
+img {
+  max-width: 100%
+}
+</style>
+</head>
+<body>
+<p>查看相关答案和源代码，欢迎访问我的Github：<a href="https://github.com/PY131/Machine-Learning_ZhouZhihua">PY131/Machine-Learning_ZhouZhihua</a>.</p>
+<h2>本章概要</h2>
+<p>本章讲述<strong>支持向量机</strong>（Support Vector Machine，<strong>SVM</strong>），相关内容包括：</p>
+<ul>
+<li>支持向量分类器（SVM classifier）</li>
+</ul>
+<blockquote>
+<p><strong>支持向量</strong>（support vector）、间隔（margin）、最大间隔（maximum margin）、<strong>支持向量机（SVM）<strong>、</strong>对偶问题</strong>（dual problem）、拉格朗日乘子法；</p>
+</blockquote>
+<ul>
+<li>核技巧（kernel trick）</li>
+</ul>
+<blockquote>
+<p>特征空间映射、高维可分、内积（inner product）、<strong>核函数</strong>（kernel function）、核矩阵（kernel matrix）半正定性、再生希尔伯特空间（RHKS）、核函数选择、多项式核、高斯核、Sigmoid核；</p>
+</blockquote>
+<ul>
+<li>软间隔（soft margin）</li>
+</ul>
+<blockquote>
+<p>硬间隔、软间隔、松弛变量（slack variables）、替代损失函数（surrogate loss function）、</p>
+</blockquote>
+<ul>
+<li>支持向量回归（SVR）</li>
+</ul>
+<h2>支持向量机的优劣总结</h2>
+<p>支持向量机模型的好处很多，这里不做赘述，下面列出些在使用支持向量机方法时，需要注意的问题：</p>
+<ol>
+<li>SVM涉及到求解二次规划，在大规模数据的训练时会产生很大的开销，为此常会引入一些高效算法来应对，如采用<strong>SOM</strong>（sequential minimal optimization）来加速二次优化问题求解；	</li>
+</ol>
+<h2>课后练习</h2>
+<h3>6.1 公式推导</h3>
+<blockquote>
+<p><img src="Ch6/6.1.png" /></p>
+</blockquote>
+<p><img src="Ch6/6.1.1.jpg" /></p>
+<h3>6.2 不同核函数对应的支持向量差别分析</h3>
+<blockquote>
+<p><img src="Ch6/6.2.png" /></p>
+</blockquote>
+<p>本题的详细内容见：
+<a href="http://blog.csdn.net/snoopy_yuan/article/details/74381508">周志华《机器学习》课后习题解答系列（七）：Ch6.2 - 支持向量分析实验</a></p>
+<h3>6.3 SVM与BP网络、C4.5决策树等的对比实验</h3>
+<blockquote>
+<p><img src="Ch6/6.3.png" /></p>
+</blockquote>
+<p>本题的详细内容见：
+<a href="http://blog.csdn.net/snoopy_yuan/article/details/74530017">周志华《机器学习》课后习题解答系列（七）：Ch6.3 - SVM对比实验</a></p>
+<h3>6.4 线性核SVM与LDA的关联</h3>
+<blockquote>
+<p><img src="Ch6/6.4.png" /></p>
+</blockquote>
+<p>SVM与LDA均可用于样本最优划分超平面的求解，即法向向量 ω ，参考文献<a href="http://download.springer.com/static/pdf/220/bok%253A978-3-540-36077-3.pdf?originUrl=https%3A%2F%2Flink.springer.com%2Fbook%2F10.1007%2F3-540-36077-8&amp;token2=exp=1499156737~acl=%2Fstatic%2Fpdf%2F220%2Fbok%25253A978-3-540-36077-3.pdf%3ForiginUrl%3Dhttps%253A%252F%252Flink.springer.com%252Fbook%252F10.1007%252F3-540-36077-8*~hmac=7ab56d6335ba31c0ad0976c5f392ad4e41276365968e3f55595b189ce3c2d6c1#page=116">Comparing Linear Discriminant Analysis and Support Vector Machines</a>中对LDA与SVM的本质描述，一般有：</p>
+<p><img src="Ch6/6.4.1.png" /></p>
+<p>考虑到线性核SVM的输入空间与特征空间相同，那么取等的条件是：</p>
+<p><img src="Ch6/6.4.2.png" /></p>
+<p>这说明两者生成的超平面相同，此时等效。</p>
+<h3>6.5 高斯核SVM与RBF网络的关联</h3>
+<blockquote>
+<p><img src="Ch6/6.5.png" /></p>
+</blockquote>
+<p>两种方法均采用径向基函数（RBF）如下：</p>
+<ul>
+<li>SVM的超平面表示为：</li>
+</ul>
+<p><img src="Ch6/6.5.1.png" /></p>
+<ul>
+<li>RBF网络表示为：</li>
+</ul>
+<p><img src="Ch6/6.5.2.png" /></p>
+<p>可以看出两者的表达式颇为相似，进一步分析，假设采用RBF网络作为一个二分类器，参考文献<a href="http://www.svms.org/comparison/Scholkopfetal1996.pdf">Comparing Support Vector Machines with Gaussian Kernels to Radial Function Classiers</a>，两者分类函数对比如下：</p>
+<ul>
+<li>SVM的分类器表示为：</li>
+</ul>
+<p><img src="Ch6/6.5.3.png" /></p>
+<ul>
+<li>RBF网络分类器表示为：</li>
+</ul>
+<p><img src="Ch6/6.5.4.png" /></p>
+<p>对于两个分类器，SVM的表达式多出了偏置项，同时其系数项 ω 只与支持向量有关；RBF网络的系数项 ω 与由输入样本训练得到，但是对于非支持向量对应的样本，其 ω数值相对非常小。</p>
+<h3>6.6 SVM对噪声的敏感分析</h3>
+<blockquote>
+<p><img src="Ch6/6.6.png" /></p>
+</blockquote>
+<p>SVM的决策边界（超平面）是由支持向量所确定的，即是利用相对较少的数据特征来学得整个数据的特性。由于支持向量相对较少，其上的噪声会对超平面的确定产生相对较大的影响。</p>
+<h3>6.7 KKT条件推导</h3>
+<blockquote>
+<p><img src="Ch6/6.7.png" /></p>
+</blockquote>
+<p>参考书中附录公式B.3，KKT条件即拉格朗日函数在对参数进行偏导取0计算后，为求得最优解，乘子和约束必须满足其中之一为0的条件。</p>
+<p>要获取式（6.52）的完整KKT条件，只需将式（6.47~6.50）代入该式即可。</p>
+<h3>6.8 SVR实验</h3>
+<blockquote>
+<p><img src="Ch6/6.8.png" /></p>
+</blockquote>
+<p>基于python-sklearn工具包，在线性核和高斯核下的SVR拟合如下图示：</p>
+<blockquote>
+<p><img src="Ch6/6.8.svr.png" /></p>
+</blockquote>
+<p>可以看出，由于数据自变量与因变量间关系随机性较强，采用SVR拟合效果不佳；</p>
+<h3>6.9 核对率回归模型设计</h3>
+<blockquote>
+<p><img src="Ch6/6.9.png" /></p>
+</blockquote>
+<p>关于核对率回归（KLR），可参考书p132中关于 log 损失函数下SVM与LR的比较，也可参考台大林轩田-机器学习技法中关于KLR的slide。</p>
+<p>简要说明如下：</p>
+<blockquote>
+<p><img src="Ch6/6.9.ans.jpg" /></p>
+</blockquote>
+<h3>6.10 SVM改进设计</h3>
+<blockquote>
+<p><img src="Ch6/6.10.png" /></p>
+</blockquote>
+<p>支持向量的规模与SVM计算速度息息相关，在不影响模型性能的情况下减少支持向量数目，能有效提高SVM效率。为此，一些稀松算法如 1-norm SVM, Lp-SVM, 自适应Lp-SVM 被提出，给出两篇参考文献如下：</p>
+<ul>
+<li><a href="http://kns.cnki.net/KCMS/detail/detail.aspx?dbcode=CJFQ&amp;dbname=CJFD2012&amp;filename=JYXH201202003&amp;uid=WEEvREcwSlJHSldRa1FhdXNXYXJwMHZqcDBjcTY4OENDZUZoU3RINlVXRT0=$9A4hF_YAuvQ5obgVAqNKPCYcEjKensW4ggI8Fm4gTkoUKaID8j8gFw!!&amp;v=MDYxNzVoVTd6QUx6VFRackc0SDlQTXJZOUZaNFI4ZVgxTHV4WVM3RGgxVDNxVHJXTTFGckNVUkwyZllPUnFGeXo=">支持向量机的缺陷及改进算法</a></li>
+<li><a href="http://ieeexplore.ieee.org/document/6623200/">Support Vector Number Reduction: Survey and Experimental Evaluations</a></li>
+</ul>
+
+</body>
+</html>
+<!-- This document was created with MarkdownPad, the Markdown editor for Windows (http://markdownpad.com) -->
