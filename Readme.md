@@ -4,7 +4,7 @@ My answers (i.e. ideas, code) for the book "Machine Learning (机器学习)" wri
 
 ps. all the code exercises are implemented by **Python** in **eclipse-pydev** env.
 
-for more info: welcome to my blog: [Snoopy_Yuan的博客](http://blog.csdn.net/snoopy_yuan) and [周志华《机器学习》课后习题解答系列](http://blog.csdn.net/snoopy_yuan/article/details/62045353)
+for more info: welcome to my blog: [PnYuan - 周志华《机器学习》习题解答](https://pnyuan.github.io/blog/categories/%E5%91%A8%E5%BF%97%E5%8D%8E%E3%80%8A%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E3%80%8B%E4%B9%A0%E9%A2%98%E8%A7%A3%E7%AD%94/) and [CSDN - 周志华《机器学习》课后习题解答系列](http://blog.csdn.net/snoopy_yuan/article/details/62045353)
 
 (更新中...2017-7-25)
 ----
