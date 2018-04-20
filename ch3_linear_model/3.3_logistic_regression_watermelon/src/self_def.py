@@ -63,7 +63,7 @@ def gradDscent_1(X, y):  #implementation of fundational gradDscent algorithms
     llh_temp = 0
     
     for i in range(max_times):
-        beta_temp = beta
+        beta_temp = beta.copy()
         
         for j in range(n): 
             # for partial derivative 
@@ -115,7 +115,7 @@ def gradDscent_2(X, y):  #implementation of stochastic gradDscent algorithms
     b = np.zeros((n, m))  #  for show convergence curve of parameter   
 
     for i in range(m):
-        beta_temp = beta
+        beta_temp = beta.copy()
         
         for j in range(n): 
             # for partial derivative 
