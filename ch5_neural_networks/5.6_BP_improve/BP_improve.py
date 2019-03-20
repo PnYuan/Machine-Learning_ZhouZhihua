@@ -3,7 +3,6 @@
 '''''
 @author: PY131
 '''''
-from sklearn.decomposition.tests.test_nmf import random_state
 
 '''
 preparation of data
@@ -42,7 +41,7 @@ Y = pd.get_dummies(dataset.iloc[:,4]).get_values()
 '''
 split of train set and test set (using sklearn function)
 '''
-from sklearn.cross_validation import train_test_split
+from sklearn.model_selection import train_test_split
 train_X, test_X, train_y, test_y, train_Y, test_Y = train_test_split(X,y,Y,test_size = 0.5, random_state = 42)  
 
 '''
